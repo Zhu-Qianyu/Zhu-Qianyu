@@ -1,636 +1,566 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import {
   profile,
-  focusAreas,
-  techStack,
-  projects,
-  navItems,
+  nav,
+  themes,
+  workItems,
+  researchItems,
+  ventureItems,
 } from './data/profile.js'
+import HandTracker from './components/HandTracker.vue'
 
-const skillLabels = {
-  languages: '语言',
-  frameworks: '框架',
-  databases: '数据库',
-  tools: '工具',
-}
-
-const activeSection = ref('about')
-const menuOpen = ref(false)
+const handOpen = ref(false)
+const theme = ref('blue')
+const themeStatus = ref('blue')
+const year = new Date().getFullYear()
+const profilePhoto = `${import.meta.env.BASE_URL}${profile.photo}`
 
 function scrollTo(id) {
-  menuOpen.value = false
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
-function onScroll() {
-  const offsets = navItems.map(({ id }) => {
-    const el = document.getElementById(id)
-    return { id, top: el ? el.getBoundingClientRect().top : Infinity }
-  })
-  const current = offsets.find((o) => o.top > 120) ?? offsets[offsets.length - 1]
-  const idx = Math.max(0, offsets.indexOf(current) - 1)
-  activeSection.value = offsets[idx]?.id ?? 'about'
+function setTheme(id) {
+  theme.value = id
+  themeStatus.value = id
+  document.documentElement.setAttribute('data-theme', id)
+  try {
+    localStorage.setItem('zq-theme', id)
+  } catch {
+    /* ignore */
+  }
 }
 
-onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
-onUnmounted(() => window.removeEventListener('scroll', onScroll))
+onMounted(() => {
+  let saved = 'blue'
+  try {
+    saved = localStorage.getItem('zq-theme') || 'blue'
+  } catch {
+    /* ignore */
+  }
+  if (themes.some((t) => t.id === saved)) {
+    setTheme(saved)
+  } else {
+    setTheme('blue')
+  }
+})
+
+watch(theme, (id) => {
+  document.documentElement.setAttribute('data-theme', id)
+})
 </script>
 
 <template>
-  <header class="header">
-    <div class="container header-inner">
-      <a href="#" class="logo" @click.prevent="scrollTo('hero')">
-        <span class="logo-mark">ZQ</span>
-        <span class="logo-text">{{ profile.nameEn }}</span>
-      </a>
-      <nav class="nav" :class="{ open: menuOpen }">
-        <button
-          v-for="item in navItems"
-          :key="item.id"
-          type="button"
-          class="nav-link"
-          :class="{ active: activeSection === item.id }"
-          @click="scrollTo(item.id)"
-        >
-          {{ item.label }}
-        </button>
-      </nav>
-      <button
-        type="button"
-        class="menu-toggle"
-        aria-label="菜单"
-        @click="menuOpen = !menuOpen"
-      >
-        <span />
-        <span />
-        <span />
-      </button>
-    </div>
-  </header>
-
-  <main>
-    <section id="hero" class="hero">
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <p class="hero-greeting">你好，我是</p>
-          <h1 class="hero-name">
-            {{ profile.name }}
-            <span class="hero-name-en">{{ profile.nameEn }}</span>
-          </h1>
-          <p class="hero-tagline">{{ profile.tagline }}</p>
-          <p class="hero-bio">{{ profile.bio }}</p>
-          <div class="hero-actions">
-            <a
-              :href="profile.github"
-              class="btn btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub 主页
-            </a>
-            <button type="button" class="btn btn-ghost" @click="scrollTo('contact')">
-              联系我
-            </button>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="avatar-ring">
-            <img
-              :src="profile.avatar"
-              :alt="profile.name"
-              class="avatar"
-              width="200"
-              height="200"
-            />
-          </div>
-          <ul class="focus-chips">
-            <li v-for="area in focusAreas" :key="area.title">
-              <span>{{ area.icon }}</span>
-              {{ area.title }}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="about" class="section">
-      <div class="container">
-        <p class="section-title">About</p>
-        <h2 class="section-heading">关于我</h2>
-        <div class="focus-grid">
-          <article
-            v-for="area in focusAreas"
-            :key="area.title"
-            class="focus-card"
+  <div class="site">
+    <header class="site-head">
+      <div class="site-head-inner">
+        <a href="#" class="site-logo" @click.prevent="scrollTo('home')">{{ profile.nameEn }}</a>
+        <nav class="site-nav" aria-label="Main">
+          <button
+            v-for="item in nav"
+            :key="item.id"
+            type="button"
+            class="site-nav-link"
+            @click="scrollTo(item.id)"
           >
-            <span class="focus-icon">{{ area.icon }}</span>
-            <h3>{{ area.title }}</h3>
-            <p>{{ area.desc }}</p>
-          </article>
-        </div>
+            {{ item.label }}
+          </button>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <section id="skills" class="section section-alt">
-      <div class="container">
-        <p class="section-title">Skills</p>
-        <h2 class="section-heading">技术栈</h2>
-        <div class="skills-grid">
-          <div v-for="(items, key) in techStack" :key="key" class="skill-group">
-            <h3 class="skill-label">{{ skillLabels[key] }}</h3>
-            <ul class="skill-tags">
-              <li v-for="item in items" :key="item">{{ item }}</li>
+    <main>
+      <section id="home" class="page-hero">
+        <div class="page-hero-grid">
+          <div class="page-hero-text">
+            <h1 class="page-hero-title">{{ profile.nameEn }}</h1>
+            <p class="page-hero-role">{{ profile.role }}</p>
+            <ul class="page-hero-id">
+              <li v-for="line in profile.identity" :key="line.text">
+                <span v-if="line.period" class="page-hero-period">{{ line.period }}</span>
+                <span>{{ line.text }}</span>
+              </li>
             </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="section">
-      <div class="container">
-        <p class="section-title">Projects</p>
-        <h2 class="section-heading">精选项目</h2>
-        <div class="project-grid">
-          <article
-            v-for="project in projects"
-            :key="project.title"
-            class="project-card"
-          >
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.desc }}</p>
-            <div class="project-tags">
-              <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
+            <div v-if="profile.intro" class="page-hero-intro">
+              <p class="page-hero-lead">{{ profile.intro.lead }}</p>
+              <ul class="page-hero-skills">
+                <li v-for="skill in profile.intro.skills" :key="skill">{{ skill }}</li>
+              </ul>
+              <p class="page-hero-aside">{{ profile.intro.aside }}</p>
+              <p class="page-hero-aitebot">{{ profile.intro.aitebot }}</p>
             </div>
-          </article>
+          </div>
+          <figure class="page-hero-photo">
+            <img
+              :src="profilePhoto"
+              :alt="profile.photoAlt"
+              width="280"
+              height="350"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
         </div>
-        <p class="project-hint">
-          更多仓库见
-          <a :href="profile.github" target="_blank" rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </p>
-      </div>
-    </section>
+      </section>
 
-    <section id="contact" class="section section-alt">
-      <div class="container contact-block">
-        <p class="section-title">Contact</p>
-        <h2 class="section-heading">保持联系</h2>
-        <p class="contact-text">
-          欢迎通过 GitHub 与我交流，或发送邮件（请在
-          <code>src/data/profile.js</code> 中填写邮箱）。
+      <section id="work" class="page-section">
+        <h2 class="page-heading">Work</h2>
+        <ul class="entry-list">
+          <li v-for="item in workItems" :key="item.title + item.period" class="entry">
+            <span class="entry-period">{{ item.period }}</span>
+            <div class="entry-body">
+              <h3>{{ item.title }}</h3>
+              <p v-if="item.advisor" class="entry-advisor">{{ item.advisor }}</p>
+              <p v-if="item.descHtml" class="entry-desc" v-html="item.descHtml" />
+              <p v-else>{{ item.desc }}</p>
+              <p v-if="item.links" class="entry-links">
+                <a
+                  v-for="link in item.links"
+                  :key="link.href"
+                  :href="link.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{ link.text }}</a>
+              </p>
+            </div>
+          </li>
+        </ul>
+        <p class="page-lab">
+          <button type="button" class="text-btn" @click="handOpen = true">Open hand mesh camera →</button>
         </p>
-        <div class="contact-links">
-          <a
-            :href="profile.github"
-            class="contact-card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="contact-label">GitHub</span>
-            <span class="contact-value">@Zhu-Qianyu</span>
-          </a>
-          <a
-            :href="profile.repo"
-            class="contact-card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="contact-label">本仓库</span>
-            <span class="contact-value">Zhu-Qianyu/Zhu-Qianyu</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span>© {{ new Date().getFullYear() }} {{ profile.nameEn }}</span>
-      <a :href="profile.repo" target="_blank" rel="noopener noreferrer"
-        >源码 · GitHub</a
-      >
-    </div>
-  </footer>
+      <section id="research" class="page-section">
+        <h2 class="page-heading">Research</h2>
+        <ul class="entry-list">
+          <li v-for="item in researchItems" :key="item.title" class="entry">
+            <span class="entry-period">{{ item.period }}</span>
+            <div class="entry-body">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.desc }}</p>
+              <p v-if="item.links" class="entry-links">
+                <a
+                  v-for="link in item.links"
+                  :key="link.href"
+                  :href="link.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{ link.text }}</a>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="venture" class="page-section">
+        <h2 class="page-heading">Venture</h2>
+        <ul class="entry-list">
+          <li v-for="item in ventureItems" :key="item.title" class="entry">
+            <span class="entry-period">{{ item.period }}</span>
+            <div class="entry-body">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.desc }}</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="contact" class="page-section page-section-last">
+        <h2 class="page-heading">Contact</h2>
+        <ul class="contact-list">
+          <li><a :href="`mailto:${profile.email}`">{{ profile.email }}</a></li>
+          <li><a :href="profile.github" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <p>All rights reserved. {{ profile.nameEn }} © {{ year }}.</p>
+      <p class="site-foot-note">Made with Vue · inspired by <a href="https://www.ilithya.rocks/" target="_blank" rel="noopener noreferrer">ilithya.rocks</a></p>
+    </footer>
+
+    <aside id="js-picker" class="picker" aria-label="Theme picker">
+      <p class="picker-status is-hidden" role="status">
+        Current theme color is <span>{{ themeStatus }}</span>.
+      </p>
+      <ul class="picker-list">
+        <li v-for="t in themes" :key="t.id" class="picker-item">
+          <label class="picker-btn" :class="`picker-btn--${t.id}`" :data-theme="t.id">
+            <input
+              :id="t.id"
+              v-model="theme"
+              type="radio"
+              name="theme"
+              :value="t.id"
+              class="is-hidden"
+              @change="setTheme(t.id)"
+            />
+            <span class="is-hidden">{{ t.label }}</span>
+          </label>
+        </li>
+      </ul>
+    </aside>
+
+    <HandTracker v-model="handOpen" />
+  </div>
 </template>
 
 <style scoped>
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--header-h);
-  background: rgba(12, 17, 23, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  z-index: 100;
+.site {
+  min-height: 100vh;
+  padding-bottom: 5rem;
 }
 
-.header-inner {
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-border);
+  transition: background 0.35s ease;
+}
+
+.site-head-inner {
+  width: min(100% - 2rem, 920px);
+  margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  gap: 1rem;
+  padding: 0.85rem 0;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.logo-mark {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  background: var(--accent);
-  color: #042f2e;
+.site-logo {
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.8rem;
-  border-radius: 10px;
+  font-size: 1.05rem;
+  color: var(--c-text);
+  text-decoration: none;
+  letter-spacing: -0.02em;
 }
 
-.logo-text {
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.nav {
+.site-nav {
   display: flex;
-  gap: 0.25rem;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.75rem;
 }
 
-.nav-link {
+.site-nav-link {
   background: none;
   border: none;
-  color: var(--text-muted);
   font-family: inherit;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.85rem;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: color 0.2s, background 0.2s;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--text);
-  background: var(--accent-soft);
-}
-
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.menu-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--text);
-  border-radius: 1px;
-}
-
-.hero {
-  padding: calc(var(--header-h) + 4rem) 0 5rem;
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 3rem;
-  align-items: center;
-}
-
-.hero-greeting {
-  color: var(--accent);
+  font-size: 0.82rem;
   font-weight: 600;
-  font-size: 0.95rem;
+  color: var(--c-text-soft);
+  cursor: pointer;
+  padding: 0.25rem 0;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: transparent;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.site-nav-link:hover {
+  color: var(--c-text);
+  text-decoration-color: currentColor;
+}
+
+.page-hero {
+  width: min(100% - 2rem, 920px);
+  margin-inline: auto;
+  padding: 3.5rem 0 2.5rem;
+  scroll-margin-top: 4rem;
+}
+
+.page-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr min(260px, 34vw);
+  gap: 2rem 2.5rem;
+  align-items: start;
+}
+
+.page-hero-photo {
+  margin: 0;
+}
+
+.page-hero-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 15%;
+  border: 2px solid var(--c-border);
+  box-shadow: 4px 4px 0 var(--c-text);
+}
+
+.page-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   margin-bottom: 0.5rem;
 }
 
-.hero-name {
-  font-size: clamp(2.25rem, 6vw, 3.25rem);
-  font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
+.page-hero-role {
+  font-size: clamp(1.1rem, 3vw, 1.45rem);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  max-width: 28rem;
 }
 
-.hero-name-en {
-  display: block;
-  font-size: 0.45em;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-top: 0.25rem;
-}
-
-.hero-tagline {
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-
-.hero-bio {
-  max-width: 32rem;
-  color: var(--text-muted);
-  margin-bottom: 2rem;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.hero-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.avatar-ring {
-  padding: 4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #3b82f6);
-  box-shadow: 0 0 48px var(--accent-glow);
-}
-
-.avatar {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid var(--bg);
-}
-
-.focus-chips {
+.page-hero-id {
   list-style: none;
   display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.page-hero-id li {
+  font-size: 0.88rem;
+  color: var(--c-text-soft);
+  display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-  max-width: 240px;
+  gap: 0.35rem 0.65rem;
+  align-items: baseline;
 }
 
-.focus-chips li {
+.page-hero-period {
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 0.8rem;
-  padding: 0.35rem 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: var(--text-muted);
+  font-weight: 500;
+  color: var(--c-accent);
+  flex-shrink: 0;
 }
 
-.focus-chips span {
-  margin-right: 0.25rem;
+.page-hero-intro {
+  margin-top: 1.75rem;
+  max-width: 32rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
-.section {
-  padding: 5rem 0;
+.page-hero-lead,
+.page-hero-aside,
+.page-hero-aitebot {
+  font-size: 0.88rem;
+  color: var(--c-text-soft);
+  line-height: 1.55;
 }
 
-.section-alt {
-  background: var(--bg-elevated);
-  border-block: 1px solid var(--border);
+.page-hero-skills {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-left: 0.15rem;
 }
 
-.focus-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+.page-hero-skills li {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-text);
+  line-height: 1.45;
+}
+
+.page-hero-skills li::before {
+  content: '—';
+  margin-right: 0.45rem;
+  font-weight: 500;
+  color: var(--c-accent);
+}
+
+.page-hero-aitebot {
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--c-border);
+}
+
+.page-section {
+  width: min(100% - 2rem, 920px);
+  margin-inline: auto;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--c-border);
+  scroll-margin-top: 4rem;
+}
+
+.page-section-last {
+  padding-bottom: 4rem;
+}
+
+.page-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.page-lab {
+  margin-top: 1.5rem;
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-link);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  padding: 0;
+}
+
+.text-btn:hover {
+  opacity: 0.75;
+}
+
+.entry-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
 }
 
-.focus-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  transition: border-color 0.2s, transform 0.2s;
+.entry {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 1rem;
 }
 
-.focus-card:hover {
-  border-color: rgba(20, 184, 166, 0.35);
-  transform: translateY(-2px);
+.entry-period {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  padding-top: 0.15rem;
 }
 
-.focus-icon {
-  font-size: 1.75rem;
-  display: block;
-  margin-bottom: 0.75rem;
+.entry-body h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
 }
 
-.focus-card h3 {
-  font-size: 1.1rem;
+.entry-advisor {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-accent);
   margin-bottom: 0.35rem;
 }
 
-.focus-card p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+.entry-body p {
+  font-size: 0.88rem;
+  color: var(--c-text-soft);
 }
 
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2rem;
+.entry-desc :deep(a) {
+  color: var(--c-link);
+  font-weight: 600;
 }
 
-.skill-label {
+.entry-desc :deep(a:hover) {
+  opacity: 0.75;
+}
+
+.entry-links {
+  margin-top: 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.entry-links a {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
 }
 
-.skill-tags {
+.contact-list {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
-}
-
-.skill-tags li {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.85rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-}
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
-}
-
-.project-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-}
-
-.project-card h3 {
-  margin-bottom: 0.5rem;
-}
-
-.project-card p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-
-.project-tags {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.project-tags span {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-radius: 6px;
-}
-
-.project-hint {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.contact-block {
-  text-align: center;
-  max-width: 560px;
-  margin-inline: auto;
-}
-
-.contact-text {
-  color: var(--text-muted);
-  margin-bottom: 2rem;
-}
-
-.contact-text code {
-  font-size: 0.85em;
-  background: var(--bg-card);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-}
-
-.contact-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.contact-card {
-  flex: 1;
-  min-width: 200px;
-  max-width: 260px;
-  padding: 1.25rem 1.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  text-align: left;
-  color: inherit;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.contact-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  opacity: 1;
-}
-
-.contact-label {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-bottom: 0.25rem;
-}
-
-.contact-value {
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--accent);
 }
 
-.footer {
-  padding: 2rem 0;
-  border-top: 1px solid var(--border);
+.site-foot {
+  width: min(100% - 2rem, 920px);
+  margin-inline: auto;
+  padding: 2rem 0 1rem;
+  border-top: 1px solid var(--c-border);
+  font-size: 0.78rem;
+  color: var(--c-text-soft);
 }
 
-.footer-inner {
+.site-foot-note {
+  margin-top: 0.35rem;
+}
+
+/* Theme picker — ilithya-style radio swatches */
+.picker {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+}
+
+.picker-list {
+  list-style: none;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
+.picker-btn {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2px solid var(--c-text);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--c-picker);
+}
 
-  .nav {
-    position: fixed;
-    top: var(--header-h);
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: var(--bg-elevated);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem;
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.25s, opacity 0.25s;
-  }
+.picker-btn:hover {
+  transform: scale(1.08);
+}
 
-  .nav.open {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
+.picker-btn--blue { background: #4a9fd4; }
+.picker-btn--purple { background: #7c6bb8; }
+.picker-btn--hotpink { background: #ff4d94; }
+.picker-btn--black { background: #333; border-color: #888; }
 
-  .hero-grid {
+.picker-item:has(input:checked) .picker-btn {
+  box-shadow: 0 0 0 3px var(--c-bg), 0 0 0 5px var(--c-text);
+}
+
+@media (max-width: 720px) {
+  .page-hero-grid {
     grid-template-columns: 1fr;
-    text-align: center;
   }
 
-  .hero-bio {
-    margin-inline: auto;
-  }
-
-  .hero-actions {
-    justify-content: center;
-  }
-
-  .hero-visual {
+  .page-hero-photo {
+    max-width: 200px;
     order: -1;
   }
 
-  .footer-inner {
+  .site-head-inner {
     flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
+    align-items: flex-start;
+  }
+
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .picker {
+    right: 0.75rem;
+    bottom: 0.75rem;
   }
 }
 </style>
