@@ -2,9 +2,13 @@
 import {
   profile,
   nav,
-  workItems,
-  researchItems,
-  ventureItems,
+  biography,
+  newsItems,
+  publications,
+  projectItems,
+  experienceItems,
+  honors,
+  misc,
 } from './data/profile.js'
 
 const year = new Date().getFullYear()
@@ -17,110 +21,125 @@ function scrollTo(id) {
 
 <template>
   <div class="page">
-    <header class="header">
-      <a href="#" class="name" @click.prevent="scrollTo('home')">{{ profile.nameEn }}</a>
-      <nav class="nav" aria-label="Main">
-        <a
-          v-for="item in nav"
-          :key="item.id"
-          href="#"
-          @click.prevent="scrollTo(item.id)"
-        >{{ item.label }}</a>
-      </nav>
-    </header>
+    <header id="top" class="banner">
+      <figure class="banner-photo">
+        <img
+          :src="profilePhoto"
+          :alt="profile.photoAlt"
+          width="180"
+          height="225"
+          loading="eager"
+        />
+      </figure>
 
-    <main>
-      <section id="home" class="hero">
-        <div class="hero-main">
-          <h1>{{ profile.nameEn }}</h1>
-          <p class="role">{{ profile.role }}</p>
-
-          <ul v-if="profile.intro?.skills" class="skills">
-            <li v-for="skill in profile.intro.skills" :key="skill">{{ skill }}</li>
-          </ul>
-
-          <p v-if="profile.intro?.lead" class="text">{{ profile.intro.lead }}</p>
-          <p v-if="profile.intro?.aside" class="text muted">{{ profile.intro.aside }}</p>
-          <p v-if="profile.intro?.aitebot" class="text">{{ profile.intro.aitebot }}</p>
-
-          <ul class="timeline">
-            <li v-for="line in profile.identity" :key="line.text">
-              <span v-if="line.period" class="when">{{ line.period }}</span>
-              {{ line.text }}
-            </li>
-          </ul>
-        </div>
-
-        <figure class="photo">
-          <img
-            :src="profilePhoto"
-            :alt="profile.photoAlt"
-            width="200"
-            height="250"
-            loading="eager"
-          />
-        </figure>
-      </section>
-
-      <section id="work" class="section">
-        <h2>Work</h2>
-        <article v-for="item in workItems" :key="item.title + item.period" class="item">
-          <p class="meta">{{ item.period }}</p>
-          <h3>{{ item.title }}</h3>
-          <p v-if="item.advisor" class="sub">{{ item.advisor }}</p>
-          <p v-if="item.descHtml" class="desc" v-html="item.descHtml" />
-          <p v-else class="desc">{{ item.desc }}</p>
-          <p v-if="item.links" class="links">
-            <a
-              v-for="link in item.links"
-              :key="link.href"
-              :href="link.href"
-              target="_blank"
-              rel="noopener noreferrer"
-            >{{ link.text }}</a>
-          </p>
-        </article>
-      </section>
-
-      <section id="research" class="section">
-        <h2>Research</h2>
-        <article v-for="item in researchItems" :key="item.title" class="item">
-          <p class="meta">{{ item.period }}</p>
-          <h3>{{ item.title }}</h3>
-          <p class="desc">{{ item.desc }}</p>
-          <p v-if="item.links" class="links">
-            <a
-              v-for="link in item.links"
-              :key="link.href"
-              :href="link.href"
-              target="_blank"
-              rel="noopener noreferrer"
-            >{{ link.text }}</a>
-          </p>
-        </article>
-      </section>
-
-      <section id="venture" class="section">
-        <h2>Venture</h2>
-        <article v-for="item in ventureItems" :key="item.title" class="item">
-          <p class="meta">{{ item.period }}</p>
-          <h3>{{ item.title }}</h3>
-          <p class="desc">{{ item.desc }}</p>
-        </article>
-      </section>
-
-      <section id="contact" class="section section-last">
-        <h2>Contact</h2>
-        <p>
-          <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
-          ·
+      <div class="banner-info">
+        <h1>{{ profile.nameEn }}</h1>
+        <p v-for="line in profile.affiliation" :key="line" class="affiliation">{{ line }}</p>
+        <p class="contact-line">
+          Email:
+          <a :href="`mailto:${profile.email}`">{{ profile.email.replace('@', ' [at] ') }}</a>
+        </p>
+        <p class="links-line">
           <a :href="profile.github" target="_blank" rel="noopener noreferrer">GitHub</a>
         </p>
+      </div>
+    </header>
+
+    <nav class="toc" aria-label="Sections">
+      <a
+        v-for="item in nav"
+        :key="item.id"
+        href="#"
+        @click.prevent="scrollTo(item.id)"
+      >{{ item.label }}</a>
+    </nav>
+
+    <main>
+      <section id="bio" class="section">
+        <h2>Biography</h2>
+        <p v-for="(para, i) in biography" :key="i" class="para">{{ para }}</p>
+      </section>
+
+      <section id="news" class="section">
+        <h2>News</h2>
+        <ul class="news-list">
+          <li v-for="item in newsItems" :key="item.date + item.text">
+            <strong>{{ item.date }}:</strong> {{ item.text }}
+          </li>
+        </ul>
+      </section>
+
+      <section id="publications" class="section">
+        <h2>Selected Publications</h2>
+        <article v-for="pub in publications" :key="pub.title" class="pub">
+          <h3 class="pub-title">
+            <a
+              v-if="pub.links[0]"
+              :href="pub.links[0].href"
+              target="_blank"
+              rel="noopener noreferrer"
+            >{{ pub.title }}</a>
+            <span v-else>{{ pub.title }}</span>
+          </h3>
+          <p class="pub-meta">{{ pub.authors }}</p>
+          <p class="pub-venue"><em>{{ pub.venue }}</em></p>
+          <p v-if="pub.links.length" class="pub-links">
+            <span v-for="(link, i) in pub.links" :key="link.href">
+              [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < pub.links.length - 1"> </span>
+            </span>
+          </p>
+          <p class="pub-desc">{{ pub.desc }}</p>
+        </article>
+      </section>
+
+      <section id="projects" class="section">
+        <h2>Selected Projects</h2>
+        <article v-for="item in projectItems" :key="item.title" class="entry">
+          <h3 class="entry-title">{{ item.title }}</h3>
+          <p class="entry-meta">{{ item.period }}</p>
+          <p class="entry-desc">{{ item.desc }}</p>
+          <p v-if="item.links" class="entry-links">
+            <span v-for="(link, i) in item.links" :key="link.href">
+              [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < item.links.length - 1"> </span>
+            </span>
+          </p>
+        </article>
+      </section>
+
+      <section id="experience" class="section">
+        <h2>Experience</h2>
+        <article v-for="item in experienceItems" :key="item.title + item.period" class="entry">
+          <h3 class="entry-title">{{ item.title }}</h3>
+          <p class="entry-meta">{{ item.period }} · {{ item.org }}</p>
+          <p class="entry-desc">{{ item.desc }}</p>
+        </article>
+      </section>
+
+      <section id="honors" class="section">
+        <h2>Honors</h2>
+        <ul class="honor-list">
+          <li v-for="item in honors" :key="item.title">
+            {{ item.title }}<br />
+            <span class="honor-year">{{ item.year }}</span>
+          </li>
+        </ul>
+      </section>
+
+      <section id="misc" class="section section-last">
+        <h2>Miscellaneous</h2>
+        <table class="misc-table">
+          <tbody>
+            <tr>
+              <th>Hobbies</th>
+              <td>{{ misc.hobbies.join(' · ') }}</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
     </main>
 
     <footer class="footer">
-      <p>{{ profile.nameEn }} · {{ year }}</p>
+      <p>© {{ profile.nameEn }} · {{ year }}</p>
     </footer>
   </div>
 </template>
@@ -129,127 +148,71 @@ function scrollTo(id) {
 .page {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 2rem 1.25rem 3rem;
+  padding: 1.75rem 1.25rem 2.5rem;
 }
 
-.header {
+/* Banner — Geng Li–style name card, photo left */
+.banner {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.75rem 1.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--c-border);
-  margin-bottom: 2.5rem;
-}
-
-.name {
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--c-text);
-}
-
-.name:hover {
-  color: var(--c-muted);
-}
-
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  font-size: 0.9rem;
-}
-
-.nav a {
-  color: var(--c-muted);
-  text-decoration: none;
-}
-
-.nav a:hover {
-  color: var(--c-text);
-  text-decoration: underline;
-}
-
-.hero {
-  display: flex;
-  flex-wrap: wrap;
   gap: 2rem;
-  margin-bottom: 2.5rem;
+  align-items: flex-start;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--c-text);
   scroll-margin-top: 1rem;
 }
 
-.hero-main {
-  flex: 1 1 16rem;
-  min-width: 0;
-}
-
-.hero h1 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.role {
-  font-size: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.skills {
-  list-style: none;
-  margin-bottom: 1rem;
-}
-
-.skills li {
-  font-size: 0.95rem;
-  margin-bottom: 0.15rem;
-}
-
-.skills li::before {
-  content: '· ';
-}
-
-.text {
-  font-size: 0.95rem;
-  margin-bottom: 0.75rem;
-}
-
-.muted {
-  color: var(--c-muted);
-}
-
-.timeline {
-  list-style: none;
-  margin-top: 1.25rem;
-  font-size: 0.9rem;
-  color: var(--c-muted);
-}
-
-.timeline li {
-  margin-bottom: 0.35rem;
-}
-
-.when {
-  display: inline-block;
-  min-width: 7.5rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.photo {
+.banner-photo {
   margin: 0;
   flex: 0 0 160px;
 }
 
-.photo img {
+.banner-photo img {
   width: 160px;
   height: auto;
   border: 1px solid var(--c-border);
 }
 
+.banner-info h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.affiliation {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin-bottom: 0.1rem;
+}
+
+.contact-line,
+.links-line {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 0;
+  font-size: 0.88rem;
+  border-bottom: 1px solid var(--c-border);
+  margin-bottom: 0.5rem;
+}
+
+.toc a {
+  color: var(--c-muted);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--c-text);
+  text-decoration: underline;
+}
+
 .section {
-  padding-top: 2rem;
-  margin-top: 2rem;
-  border-top: 1px solid var(--c-border);
-  scroll-margin-top: 1rem;
+  padding-top: 1.75rem;
+  scroll-margin-top: 0.5rem;
 }
 
 .section-last {
@@ -257,79 +220,151 @@ function scrollTo(id) {
 }
 
 .section h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--c-muted);
-  margin-bottom: 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--c-border);
 }
 
-.item {
-  margin-bottom: 1.5rem;
+.para {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  text-align: justify;
 }
 
-.item:last-child {
+.para:last-child {
   margin-bottom: 0;
 }
 
-.meta {
-  font-size: 0.85rem;
-  color: var(--c-muted);
-  margin-bottom: 0.15rem;
+.news-list {
+  padding-left: 1.25rem;
+  font-size: 0.95rem;
 }
 
-.item h3 {
+.news-list li {
+  margin-bottom: 0.45rem;
+}
+
+.pub {
+  margin-bottom: 1.35rem;
+}
+
+.pub:last-child {
+  margin-bottom: 0;
+}
+
+.pub-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.pub-title a {
+  color: var(--c-text);
+  text-decoration: none;
+}
+
+.pub-title a:hover {
+  text-decoration: underline;
+}
+
+.pub-meta,
+.pub-venue {
+  font-size: 0.92rem;
+  margin-bottom: 0.1rem;
+}
+
+.pub-links {
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+.pub-desc {
+  font-size: 0.92rem;
+  color: var(--c-muted);
+  margin-top: 0.25rem;
+}
+
+.entry {
+  margin-bottom: 1.1rem;
+}
+
+.entry-title {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.1rem;
 }
 
-.sub {
-  font-size: 0.9rem;
+.entry-meta {
+  font-size: 0.88rem;
   color: var(--c-muted);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
-.desc {
-  font-size: 0.95rem;
-  color: var(--c-text);
+.entry-desc {
+  font-size: 0.93rem;
 }
 
-.desc :deep(a) {
-  color: var(--c-link);
-}
-
-.links {
-  margin-top: 0.35rem;
+.entry-links {
   font-size: 0.9rem;
+  margin-top: 0.2rem;
 }
 
-.links a + a {
-  margin-left: 0.75rem;
+.honor-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.75rem 1.5rem;
+  font-size: 0.93rem;
+}
+
+.honor-year {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+}
+
+.misc-table {
+  width: 100%;
+  max-width: 28rem;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.misc-table th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.35rem 1rem 0.35rem 0;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.misc-table td {
+  padding: 0.35rem 0;
+  vertical-align: top;
 }
 
 .footer {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--c-border);
   font-size: 0.85rem;
   color: var(--c-muted);
+  text-align: center;
 }
 
-@media (max-width: 540px) {
-  .when {
-    display: block;
-    min-width: 0;
-    margin-bottom: 0.1rem;
+@media (max-width: 560px) {
+  .banner {
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .photo {
-    flex-basis: 100%;
+  .banner-photo img {
+    width: 130px;
   }
 
-  .photo img {
-    width: 140px;
+  .honor-list {
+    grid-template-columns: 1fr;
   }
 }
 </style>

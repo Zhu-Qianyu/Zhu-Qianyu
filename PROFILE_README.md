@@ -1,6 +1,6 @@
 # Zhu Qianyu
 
-Full-stack robotics engineer · robotics-only geek studio founder at **aitebot lab** (WUT)
+Robotics-only geek studio founder at **aitebot lab** (WUT)
 
 **Core:** hardware structure design · robot control · vision-centric multimodal AI  
 **Also:** web stack · travel & swimming
