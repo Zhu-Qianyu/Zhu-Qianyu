@@ -6,9 +6,9 @@ export const profile = {
   photo: 'images/profile.png',
   photoAlt: 'Zhu Qianyu',
   affiliation: [
-    'B.S. Candidate, Intelligent Manufacturing Engineering',
-    'Wuhan University of Technology',
-    'Founder, aitebot lab',
+    '2022.9–2026.6 · B.S. Intelligent Manufacturing Engineering, Wuhan University of Technology',
+    '2025.9–2026.3 · Research Assistant, School of Remote Sensing and Information Engineering, Wuhan University',
+    '2026.8–present · M.Sc. Intelligent Manufacturing Engineering, Nanyang Technological University',
   ],
 }
 
