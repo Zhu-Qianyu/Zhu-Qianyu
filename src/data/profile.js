@@ -41,13 +41,6 @@ export const nav = [
   { id: 'contact', label: 'Contact' },
 ]
 
-export const themes = [
-  { id: 'blue', label: 'Blue theme' },
-  { id: 'purple', label: 'Purple theme' },
-  { id: 'hotpink', label: 'Hotpink theme' },
-  { id: 'black', label: 'Black theme' },
-]
-
 export const workItems = [
   {
     period: '2025 – 2026',

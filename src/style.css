@@ -6,49 +6,14 @@
   padding: 0;
 }
 
-:root,
-[data-theme='blue'] {
-  --c-bg: #8ec5e8;
-  --c-bg-alt: #7ab8df;
-  --c-text: #0c1a2e;
-  --c-text-soft: #1e3a52;
-  --c-accent: #0f4c75;
-  --c-link: #0a3d5c;
-  --c-border: rgba(12, 26, 46, 0.18);
-  --c-picker: #4a9fd4;
-}
-
-[data-theme='purple'] {
-  --c-bg: #a898d8;
-  --c-bg-alt: #9684cc;
-  --c-text: #1a1030;
-  --c-text-soft: #2d2050;
-  --c-accent: #4c2d7a;
-  --c-link: #3a2260;
-  --c-border: rgba(26, 16, 48, 0.2);
-  --c-picker: #7c6bb8;
-}
-
-[data-theme='hotpink'] {
-  --c-bg: #ff7eb9;
-  --c-bg-alt: #ff6aad;
-  --c-text: #3a0a24;
-  --c-text-soft: #5c1238;
-  --c-accent: #8b1452;
-  --c-link: #6e1040;
-  --c-border: rgba(58, 10, 36, 0.18);
-  --c-picker: #ff4d94;
-}
-
-[data-theme='black'] {
-  --c-bg: #141414;
-  --c-bg-alt: #1e1e1e;
-  --c-text: #f2f2f2;
-  --c-text-soft: #b8b8b8;
-  --c-accent: #ffffff;
-  --c-link: #e0e0e0;
-  --c-border: rgba(255, 255, 255, 0.14);
-  --c-picker: #555555;
+:root {
+  --c-bg: #fff;
+  --c-text: #111;
+  --c-muted: #555;
+  --c-border: #ddd;
+  --c-link: #111;
+  --max: 42rem;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 html {
@@ -56,21 +21,22 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font);
+  font-size: 1rem;
   background: var(--c-bg);
   color: var(--c-text);
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.35s ease, color 0.35s ease;
 }
 
 a {
   color: var(--c-link);
+  text-decoration: underline;
   text-underline-offset: 0.15em;
 }
 
 a:hover {
-  opacity: 0.75;
+  color: var(--c-muted);
 }
 
 img {
@@ -78,26 +44,8 @@ img {
   display: block;
 }
 
-.is-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
   }
 }
