@@ -318,8 +318,8 @@ function scrollTo(id) {
 
 .media-figure {
   margin: 0;
-  flex: 0 0 11rem;
-  max-width: 11rem;
+  flex: 0 0 18rem;
+  max-width: 18rem;
 }
 
 .media-figure img {
@@ -456,7 +456,7 @@ function scrollTo(id) {
   .media-figure {
     flex: 0 0 auto;
     max-width: 100%;
-    width: min(100%, 16rem);
+    width: min(100%, 20rem);
   }
 
   .honor-list {
