@@ -40,6 +40,10 @@ export const newsItems = [
     text: 'Invention patent granted: real-time bath syncope early-warning method and device based on multi-sensor comfort feedback · first inventor.',
   },
   {
+    date: '2026.1',
+    text: 'Invention patent published: 一种基于视觉点云测算的缺口隔断墙模型生成方法 · second inventor.',
+  },
+  {
     date: '2026.5',
     text: 'aitebot partnered with 深研 Studio.',
   },
@@ -117,6 +121,7 @@ export const publications = [
     venue: 'Sensors (MDPI), SCI Q2 · accepted Sep 2025',
     desc:
       'Transfer-learning-based denoising diffusion models for PIV. Sole first author. Preprint and code released Apr 2025.',
+    image: 'figures/piv-flowdiffuser.jpg',
     links: [
       { text: 'DOI', href: 'https://doi.org/10.3390/s25196077' },
       { text: 'arXiv', href: 'https://arxiv.org/abs/2504.14952' },
@@ -125,25 +130,29 @@ export const publications = [
   },
   {
     title:
-      'Real-Time Bath Syncope Early-Warning Method and Device Based on Multi-Sensor Comfort Feedback',
-    authors: 'Invention patent · first inventor',
+      '基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 (Real-Time Bath Syncope Early-Warning Method and Device Based on Multi-Sensor Comfort Feedback)',
+    authors: '发明专利 · 第一发明人',
     venue: 'Granted · Jun 2026',
     desc: 'Multi-sensor comfort feedback for real-time bath syncope early warning.',
+    image: 'figures/bath-syncope.jpg',
     links: [],
   },
   {
     title:
-      'Event-Camera-Based Apparatus and Method for Full-Field Measurement of Fluid–Structure Coupled Vibration',
-    authors: 'Invention patent · third inventor',
-    venue: 'Granted · Dec 2024',
-    desc: 'Full-field vibration measurement using event cameras for fluid–structure interaction.',
+      '一种基于视觉点云测算的缺口隔断墙模型生成方法 (Gap Partition Wall Model Generation Method Based on Visual Point Cloud Measurement)',
+    authors: '发明专利 · 第二发明人',
+    venue: 'Published · Jan 2026',
+    desc: 'Generates gap partition wall models from visual point cloud measurement for 3D printing workflows.',
+    image: 'figures/gap-partition-wall.jpg',
     links: [],
   },
   {
-    title: 'Print Arm for 3D Printer',
-    authors: 'Utility model patent · third inventor',
+    title:
+      '一种基于事件相机的流固耦合振动全场测量装置及方法 (Event-Camera Apparatus and Method for Full-Field Fluid–Structure Coupled Vibration Measurement)',
+    authors: '发明专利 · 第三发明人',
     venue: 'Granted · Dec 2024',
-    desc: 'Mechanical print-arm design for 3D printing systems.',
+    desc: 'Full-field vibration measurement using event cameras for fluid–structure interaction.',
+    image: 'figures/event-camera-fsi.jpg',
     links: [],
   },
 ]
@@ -154,6 +163,7 @@ export const projectItems = [
     period: '2025 – 2026',
     desc:
       'Ego-centric multi-view data collection ops platform (thesis project with MAX YIN). React + Supabase; six-camera hat firmware. Live at upaieasy.cn — used by teams in Suzhou, Nanning, and elsewhere.',
+    image: 'figures/upaieasy.jpg',
     links: [
       { text: 'GitHub', href: 'https://github.com/Zhu-Qianyu/UPAIego-management' },
       { text: 'Site', href: 'https://upaieasy.cn' },
@@ -164,20 +174,12 @@ export const projectItems = [
     period: '2023 – 2024',
     desc:
       '“Wall-Building Craftsman” mobile concrete 3D printing robot under Prof. Yin Haibin. SLAM-based segmented printing without gantries. RoboCup & CMCC national first prizes (2024) · team lead.',
+    image: 'figures/artwall-v1.jpg',
     links: [
       {
         text: 'GitHub',
         href: 'https://github.com/Zhu-Qianyu/Artwall-v1.0-A-Concrete-3D-Printing-Robot',
       },
-    ],
-  },
-  {
-    title: 'Mr.handy — Agricultural Robot',
-    period: '2024 –',
-    desc:
-      'Open-source farmer robot: remote control, SLAM navigation, Ant Lingbo VLA. Ego + UMI hybrid data collection; ~300 h logged.',
-    links: [
-      { text: 'GitHub', href: 'https://github.com/Zhu-Qianyu/Mr.handy-A-farmer-robot' },
     ],
   },
 ]

@@ -14,6 +14,10 @@ import {
 const year = new Date().getFullYear()
 const profilePhoto = `${import.meta.env.BASE_URL}${profile.photo}`
 
+function assetUrl(path) {
+  return `${import.meta.env.BASE_URL}${path}`
+}
+
 function scrollTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
@@ -89,37 +93,51 @@ function scrollTo(id) {
       <section id="publications" class="section">
         <h2>Selected Publications</h2>
         <article v-for="pub in publications" :key="pub.title" class="pub">
-          <h3 class="pub-title">
-            <a
-              v-if="pub.links[0]"
-              :href="pub.links[0].href"
-              target="_blank"
-              rel="noopener noreferrer"
-            >{{ pub.title }}</a>
-            <span v-else>{{ pub.title }}</span>
-          </h3>
-          <p class="pub-meta">{{ pub.authors }}</p>
-          <p class="pub-venue"><em>{{ pub.venue }}</em></p>
-          <p v-if="pub.links.length" class="pub-links">
-            <span v-for="(link, i) in pub.links" :key="link.href">
-              [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < pub.links.length - 1"> </span>
-            </span>
-          </p>
-          <p class="pub-desc">{{ pub.desc }}</p>
+          <div class="media-row">
+            <figure v-if="pub.image" class="media-figure">
+              <img :src="assetUrl(pub.image)" :alt="pub.title" loading="lazy" />
+            </figure>
+            <div class="media-body">
+              <h3 class="pub-title">
+                <a
+                  v-if="pub.links[0]"
+                  :href="pub.links[0].href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{ pub.title }}</a>
+                <span v-else>{{ pub.title }}</span>
+              </h3>
+              <p class="pub-meta">{{ pub.authors }}</p>
+              <p class="pub-venue"><em>{{ pub.venue }}</em></p>
+              <p v-if="pub.links.length" class="pub-links">
+                <span v-for="(link, i) in pub.links" :key="link.href">
+                  [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < pub.links.length - 1"> </span>
+                </span>
+              </p>
+              <p class="pub-desc">{{ pub.desc }}</p>
+            </div>
+          </div>
         </article>
       </section>
 
       <section id="projects" class="section">
         <h2>Selected Projects</h2>
         <article v-for="item in projectItems" :key="item.title" class="entry">
-          <h3 class="entry-title">{{ item.title }}</h3>
-          <p class="entry-meta">{{ item.period }}</p>
-          <p class="entry-desc">{{ item.desc }}</p>
-          <p v-if="item.links" class="entry-links">
-            <span v-for="(link, i) in item.links" :key="link.href">
-              [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < item.links.length - 1"> </span>
-            </span>
-          </p>
+          <div class="media-row">
+            <figure v-if="item.image" class="media-figure">
+              <img :src="assetUrl(item.image)" :alt="item.title" loading="lazy" />
+            </figure>
+            <div class="media-body">
+              <h3 class="entry-title">{{ item.title }}</h3>
+              <p class="entry-meta">{{ item.period }}</p>
+              <p class="entry-desc">{{ item.desc }}</p>
+              <p v-if="item.links" class="entry-links">
+                <span v-for="(link, i) in item.links" :key="link.href">
+                  [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < item.links.length - 1"> </span>
+                </span>
+              </p>
+            </div>
+          </div>
         </article>
       </section>
 
@@ -285,11 +303,35 @@ function scrollTo(id) {
 }
 
 .pub {
-  margin-bottom: 1.35rem;
+  margin-bottom: 1.5rem;
 }
 
 .pub:last-child {
   margin-bottom: 0;
+}
+
+.media-row {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.media-figure {
+  margin: 0;
+  flex: 0 0 11rem;
+  max-width: 11rem;
+}
+
+.media-figure img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--c-border);
+  object-fit: contain;
+}
+
+.media-body {
+  flex: 1;
+  min-width: 0;
 }
 
 .pub-title {
@@ -325,7 +367,11 @@ function scrollTo(id) {
 }
 
 .entry {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.35rem;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
 }
 
 .entry-title {
@@ -399,6 +445,16 @@ function scrollTo(id) {
 
   .banner-photo img {
     width: 130px;
+  }
+
+  .media-row {
+    flex-direction: column;
+  }
+
+  .media-figure {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: min(100%, 16rem);
   }
 
   .honor-list {
