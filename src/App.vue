@@ -93,20 +93,17 @@ function scrollTo(id) {
       <section id="publications" class="section">
         <h2>Selected Publications</h2>
         <article v-for="pub in publications" :key="pub.title" class="pub">
+          <h3 class="pub-title">
+            <a
+              v-if="pub.links[0]"
+              :href="pub.links[0].href"
+              target="_blank"
+              rel="noopener noreferrer"
+            >{{ pub.title }}</a>
+            <span v-else>{{ pub.title }}</span>
+          </h3>
           <div class="media-row">
-            <figure v-if="pub.image" class="media-figure">
-              <img :src="assetUrl(pub.image)" :alt="pub.title" loading="lazy" />
-            </figure>
             <div class="media-body">
-              <h3 class="pub-title">
-                <a
-                  v-if="pub.links[0]"
-                  :href="pub.links[0].href"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >{{ pub.title }}</a>
-                <span v-else>{{ pub.title }}</span>
-              </h3>
               <p class="pub-meta">{{ pub.authors }}</p>
               <p class="pub-venue"><em>{{ pub.venue }}</em></p>
               <p v-if="pub.links.length" class="pub-links">
@@ -116,6 +113,9 @@ function scrollTo(id) {
               </p>
               <p class="pub-desc">{{ pub.desc }}</p>
             </div>
+            <figure v-if="pub.image" class="media-figure">
+              <img :src="assetUrl(pub.image)" :alt="pub.title" loading="lazy" />
+            </figure>
           </div>
         </article>
       </section>
@@ -123,12 +123,9 @@ function scrollTo(id) {
       <section id="projects" class="section">
         <h2>Selected Projects</h2>
         <article v-for="item in projectItems" :key="item.title" class="entry">
+          <h3 class="entry-title">{{ item.title }}</h3>
           <div class="media-row">
-            <figure v-if="item.image" class="media-figure">
-              <img :src="assetUrl(item.image)" :alt="item.title" loading="lazy" />
-            </figure>
             <div class="media-body">
-              <h3 class="entry-title">{{ item.title }}</h3>
               <p class="entry-meta">{{ item.period }}</p>
               <p class="entry-desc">{{ item.desc }}</p>
               <p v-if="item.links" class="entry-links">
@@ -137,6 +134,9 @@ function scrollTo(id) {
                 </span>
               </p>
             </div>
+            <figure v-if="item.image" class="media-figure">
+              <img :src="assetUrl(item.image)" :alt="item.title" loading="lazy" />
+            </figure>
           </div>
         </article>
       </section>
@@ -337,7 +337,8 @@ function scrollTo(id) {
 .pub-title {
   font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
 }
 
 .pub-title a {
@@ -377,7 +378,8 @@ function scrollTo(id) {
 .entry-title {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
 }
 
 .entry-meta {
