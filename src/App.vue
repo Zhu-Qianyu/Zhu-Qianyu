@@ -1,18 +1,12 @@
 <script setup>
-import {
-  profile,
-  nav,
-  biography,
-  newsItems,
-  publications,
-  projectItems,
-  experienceItems,
-  honors,
-  misc,
-} from './data/profile.js'
+import { ref, computed, onMounted, watch } from 'vue'
+import { profileBase, messages } from './data/profile.js'
 
+const locale = ref('en')
 const year = new Date().getFullYear()
-const profilePhoto = `${import.meta.env.BASE_URL}${profile.photo}`
+const profilePhoto = `${import.meta.env.BASE_URL}${profileBase.photo}`
+
+const t = computed(() => messages[locale.value] ?? messages.en)
 
 function assetUrl(path) {
   return `${import.meta.env.BASE_URL}${path}`
@@ -21,15 +15,61 @@ function assetUrl(path) {
 function scrollTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
+
+function setLocale(lang) {
+  locale.value = lang
+  try {
+    localStorage.setItem('zq-lang', lang)
+  } catch {
+    /* ignore */
+  }
+}
+
+function printPage() {
+  window.print()
+}
+
+onMounted(() => {
+  let saved = 'en'
+  try {
+    saved = localStorage.getItem('zq-lang') || 'en'
+  } catch {
+    /* ignore */
+  }
+  if (messages[saved]) setLocale(saved)
+})
+
+watch(locale, (lang) => {
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'
+}, { immediate: true })
 </script>
 
 <template>
   <div class="page">
+    <div class="toolbar no-print">
+      <div class="lang-switch" role="group" :aria-label="locale === 'zh' ? '语言' : 'Language'">
+        <button
+          type="button"
+          class="lang-btn"
+          :class="{ active: locale === 'en' }"
+          @click="setLocale('en')"
+        >{{ t.ui.langEn }}</button>
+        <span class="lang-sep">|</span>
+        <button
+          type="button"
+          class="lang-btn"
+          :class="{ active: locale === 'zh' }"
+          @click="setLocale('zh')"
+        >{{ t.ui.langZh }}</button>
+      </div>
+      <button type="button" class="print-btn" @click="printPage">{{ t.ui.print }}</button>
+    </div>
+
     <header id="top" class="banner">
       <figure class="banner-photo">
         <img
           :src="profilePhoto"
-          :alt="profile.photoAlt"
+          :alt="t.photoAlt"
           width="180"
           height="225"
           loading="eager"
@@ -37,21 +77,22 @@ function scrollTo(id) {
       </figure>
 
       <div class="banner-info">
-        <h1>{{ profile.nameEn }}</h1>
-        <p v-for="line in profile.affiliation" :key="line" class="affiliation">{{ line }}</p>
-        <div class="icon-links">
+        <h1>{{ t.name }}</h1>
+        <p v-for="line in t.affiliation" :key="line" class="affiliation">{{ line }}</p>
+
+        <div class="icon-links no-print">
           <a
-            :href="`mailto:${profile.email}`"
+            :href="`mailto:${profileBase.email}`"
             class="icon-link"
-            :aria-label="`Email ${profile.email}`"
-            :title="profile.email"
+            :aria-label="`${t.ui.emailLabel} ${profileBase.email}`"
+            :title="profileBase.email"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
             </svg>
           </a>
           <a
-            :href="profile.github"
+            :href="profileBase.github"
             class="icon-link"
             aria-label="GitHub"
             title="GitHub"
@@ -63,12 +104,17 @@ function scrollTo(id) {
             </svg>
           </a>
         </div>
+
+        <p class="print-contact print-only">
+          {{ t.ui.emailLabel }}: {{ profileBase.email }} ·
+          {{ t.ui.githubLabel }}: {{ profileBase.github }}
+        </p>
       </div>
     </header>
 
-    <nav class="toc" aria-label="Sections">
+    <nav class="toc no-print" aria-label="Sections">
       <a
-        v-for="item in nav"
+        v-for="item in t.nav"
         :key="item.id"
         href="#"
         @click.prevent="scrollTo(item.id)"
@@ -77,26 +123,27 @@ function scrollTo(id) {
 
     <main>
       <section id="bio" class="section">
-        <h2>Biography</h2>
-        <p v-for="(para, i) in biography" :key="i" class="para">{{ para }}</p>
+        <h2>{{ t.sections.bio }}</h2>
+        <p v-for="(para, i) in t.biography" :key="i" class="para">{{ para }}</p>
       </section>
 
       <section id="news" class="section">
-        <h2>News</h2>
+        <h2>{{ t.sections.news }}</h2>
         <ul class="news-list">
-          <li v-for="item in newsItems" :key="item.date + item.text">
+          <li v-for="item in t.newsItems" :key="item.date + item.text">
             <strong>{{ item.date }}:</strong> {{ item.text }}
           </li>
         </ul>
       </section>
 
       <section id="publications" class="section">
-        <h2>Selected Publications</h2>
-        <article v-for="pub in publications" :key="pub.title" class="pub">
+        <h2>{{ t.sections.publications }}</h2>
+        <article v-for="pub in t.publications" :key="pub.title" class="pub">
           <h3 class="pub-title">
             <a
               v-if="pub.links[0]"
               :href="pub.links[0].href"
+              class="print-link"
               target="_blank"
               rel="noopener noreferrer"
             >{{ pub.title }}</a>
@@ -108,7 +155,7 @@ function scrollTo(id) {
               <p class="pub-venue"><em>{{ pub.venue }}</em></p>
               <p v-if="pub.links.length" class="pub-links">
                 <span v-for="(link, i) in pub.links" :key="link.href">
-                  [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < pub.links.length - 1"> </span>
+                  [<a :href="link.href" class="print-link" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < pub.links.length - 1"> </span>
                 </span>
               </p>
               <p class="pub-desc">{{ pub.desc }}</p>
@@ -121,8 +168,8 @@ function scrollTo(id) {
       </section>
 
       <section id="projects" class="section">
-        <h2>Selected Projects</h2>
-        <article v-for="item in projectItems" :key="item.title" class="entry">
+        <h2>{{ t.sections.projects }}</h2>
+        <article v-for="item in t.projectItems" :key="item.title" class="entry">
           <h3 class="entry-title">{{ item.title }}</h3>
           <div class="media-row">
             <div class="media-body">
@@ -130,7 +177,7 @@ function scrollTo(id) {
               <p class="entry-desc">{{ item.desc }}</p>
               <p v-if="item.links" class="entry-links">
                 <span v-for="(link, i) in item.links" :key="link.href">
-                  [<a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < item.links.length - 1"> </span>
+                  [<a :href="link.href" class="print-link" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>]<span v-if="i < item.links.length - 1"> </span>
                 </span>
               </p>
             </div>
@@ -142,8 +189,8 @@ function scrollTo(id) {
       </section>
 
       <section id="experience" class="section">
-        <h2>Experience</h2>
-        <article v-for="item in experienceItems" :key="item.title + item.period" class="entry">
+        <h2>{{ t.sections.experience }}</h2>
+        <article v-for="item in t.experienceItems" :key="item.title + item.period" class="entry">
           <h3 class="entry-title">{{ item.title }}</h3>
           <p class="entry-meta">{{ item.period }} · {{ item.org }}</p>
           <p class="entry-desc">{{ item.desc }}</p>
@@ -151,9 +198,9 @@ function scrollTo(id) {
       </section>
 
       <section id="honors" class="section">
-        <h2>Honors</h2>
+        <h2>{{ t.sections.honors }}</h2>
         <ul class="honor-list">
-          <li v-for="item in honors" :key="item.title">
+          <li v-for="item in t.honors" :key="item.title">
             {{ item.title }}<br />
             <span class="honor-year">{{ item.year }}</span>
           </li>
@@ -161,12 +208,12 @@ function scrollTo(id) {
       </section>
 
       <section id="misc" class="section section-last">
-        <h2>Miscellaneous</h2>
+        <h2>{{ t.sections.misc }}</h2>
         <table class="misc-table">
           <tbody>
             <tr>
-              <th>Hobbies</th>
-              <td>{{ misc.hobbies.join(' · ') }}</td>
+              <th>{{ t.sections.hobbies }}</th>
+              <td>{{ t.misc.hobbies.join(' · ') }}</td>
             </tr>
           </tbody>
         </table>
@@ -174,7 +221,7 @@ function scrollTo(id) {
     </main>
 
     <footer class="footer">
-      <p>© {{ profile.nameEn }} · {{ year }}</p>
+      <p>© {{ t.name }} · {{ year }}</p>
     </footer>
   </div>
 </template>
@@ -186,7 +233,60 @@ function scrollTo(id) {
   padding: 1.75rem 1.25rem 2.5rem;
 }
 
-/* Banner — Geng Li–style name card, photo left */
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--c-muted);
+  cursor: pointer;
+  padding: 0.15rem 0.25rem;
+}
+
+.lang-btn:hover,
+.lang-btn.active {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+.lang-sep {
+  color: var(--c-border);
+}
+
+.print-btn {
+  background: none;
+  border: 1px solid var(--c-border);
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--c-text);
+  cursor: pointer;
+  padding: 0.25rem 0.65rem;
+  border-radius: 3px;
+}
+
+.print-btn:hover {
+  border-color: var(--c-text);
+}
+
+.print-only {
+  display: none;
+}
+
 .banner {
   display: flex;
   gap: 2rem;
@@ -244,6 +344,11 @@ function scrollTo(id) {
   width: 1.35rem;
   height: 1.35rem;
   fill: currentColor;
+}
+
+.print-contact {
+  margin-top: 0.75rem;
+  font-size: 0.92rem;
 }
 
 .toc {
@@ -461,6 +566,53 @@ function scrollTo(id) {
 
   .honor-list {
     grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<style>
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  body {
+    font-size: 11pt;
+    color: #000;
+    background: #fff;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  a.print-link {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  a.print-link[href^='http']:after,
+  a.print-link[href^='mailto']:after {
+    content: ' (' attr(href) ')';
+    font-size: 0.88em;
+    word-break: break-all;
+  }
+
+  .media-figure img {
+    max-height: 9cm;
+  }
+
+  .section {
+    break-inside: avoid-page;
+  }
+
+  .pub {
+    break-inside: avoid-page;
   }
 }
 </style>

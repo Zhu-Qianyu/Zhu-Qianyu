@@ -13,7 +13,7 @@
   --c-border: #ddd;
   --c-link: #111;
   --max: 52rem;
-  --font: Georgia, 'Times New Roman', Times, serif;
+  --font: Georgia, 'Times New Roman', 'Noto Serif SC', Times, serif;
 }
 
 html {

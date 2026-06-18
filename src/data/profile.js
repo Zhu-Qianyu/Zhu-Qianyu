@@ -1,230 +1,340 @@
-export const profile = {
+export const profileBase = {
   name: '朱钱宇',
   nameEn: 'Zhu Qianyu',
   email: 'zhuqianyu2@gmail.com',
   github: 'https://github.com/Zhu-Qianyu',
   photo: 'images/profile.png',
-  photoAlt: 'Zhu Qianyu',
-  affiliation: [
-    '2022.9–2026.6 · B.S. Intelligent Manufacturing Engineering, Wuhan University of Technology',
-    '2025.9–2026.3 · Research Assistant, School of Remote Sensing and Information Engineering, Wuhan University',
-    '2026.8–present · M.Sc. Intelligent Manufacturing Engineering, Nanyang Technological University',
+}
+
+const pubLinks = {
+  piv: [
+    { text: 'DOI', href: 'https://doi.org/10.3390/s25196077' },
+    { text: 'arXiv', href: 'https://arxiv.org/abs/2504.14952' },
+    { text: 'Code', href: 'https://github.com/Zhu-Qianyu/PIV-FlowDiffuser' },
   ],
 }
 
-export const nav = [
-  { id: 'bio', label: 'Biography' },
-  { id: 'news', label: 'News' },
-  { id: 'publications', label: 'Publications' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'honors', label: 'Honors' },
-  { id: 'misc', label: 'Misc' },
-]
+const projectLinks = {
+  upai: [
+    { text: 'GitHub', href: 'https://github.com/Zhu-Qianyu/UPAIego-management' },
+    { text: 'Site', href: 'https://upaieasy.cn' },
+  ],
+  artwall: [
+    {
+      text: 'GitHub',
+      href: 'https://github.com/Zhu-Qianyu/Artwall-v1.0-A-Concrete-3D-Printing-Robot',
+    },
+  ],
+}
 
-export const biography = [
-  'Hi there! Welcome to my homepage.',
-  'I am Zhu Qianyu. I graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology in June 2026. I spent my senior year as a research assistant in Prof. Wang Taoyang’s lab at WHU Remote Sensing, and will start an M.Sc. in Intelligent Manufacturing Engineering at Nanyang Technological University in August 2026.',
-  'I work on robotics end to end — hardware structure design, control algorithms, and vision-centric multimodal AI. I also pick up a web stack when a project needs a dashboard or ops platform.',
-  'In June 2023 I founded aitebot lab, a studio of pure tech enthusiasts at WUT. In September 2024 we registered the company entity Aitebot (Hongshan, Wuhan, Hubei) Intelligent Robotics Co., Ltd.',
-  'If you are interested in my work or would like to chat, feel free to send me an email.',
-]
-
-export const newsItems = [
-  {
-    date: '2026.6',
-    text: 'Graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology.',
-  },
-  {
-    date: '2026.6',
-    text: 'Invention patent granted: real-time bath syncope early-warning method and device based on multi-sensor comfort feedback · first inventor.',
-  },
-  {
-    date: '2026.1',
-    text: 'Invention patent published: 一种基于视觉点云测算的缺口隔断墙模型生成方法 · second inventor.',
-  },
-  {
-    date: '2026.5',
-    text: 'aitebot partnered with 深研 Studio.',
-  },
-  {
-    date: '2026.5',
-    text: 'upaieasy.cn launched; adopted by ego data-collection teams in Suzhou, Nanning, and elsewhere.',
-  },
-  {
-    date: '2026.4',
-    text: 'aitebot company entity invited to join the NVIDIA Inception Program.',
-  },
-  {
-    date: '2026.3',
-    text: 'Completed undergraduate thesis with MAX YIN (Saiyuan Technology).',
-  },
-  {
-    date: '2026.1',
-    text: 'Accepted to NTU M.Sc. Intelligent Manufacturing Engineering; starting August 2026.',
-  },
-  {
-    date: '2025.11',
-    text: 'Wuhan municipal college startup grant.',
-  },
-  {
-    date: '2025.11',
-    text: 'ICAN national third prize · “筑墙智匠” concrete 3D printing robot · team captain.',
-  },
-  {
-    date: '2025.10',
-    text: 'Business Elite Challenge national second prize · aitebot lab · team captain.',
-  },
-  {
-    date: '2025.9',
-    text: 'PIV-FlowDiffuser accepted in Sensors (MDPI, SCI Q2) · sole first author.',
-  },
-  {
-    date: '2025.9',
-    text: 'Joined Prof. Wang Taoyang’s lab, WHU School of Remote Sensing and Information Engineering.',
-  },
-  {
-    date: '2025.4',
-    text: 'PIV-FlowDiffuser preprint on arXiv and code released on GitHub.',
-  },
-  {
-    date: '2024.12',
-    text: 'Utility model patent granted: print arm for 3D printer · third inventor.',
-  },
-  {
-    date: '2024.12',
-    text: 'Invention patent granted: event-camera fluid–structure coupled vibration full-field measurement · third inventor.',
-  },
-  {
-    date: '2024.11',
-    text: 'CMCC national first prize: design of a high-rise partition-wall 3D printing robot · team lead.',
-  },
-  {
-    date: '2024.10',
-    text: 'RoboCup national first prize: “筑墙智匠” 3D printing robot · team lead.',
-  },
-  {
-    date: '2024.9',
-    text: 'Registered company entity Aitebot (Hongshan, Wuhan, Hubei) Intelligent Robotics Co., Ltd.',
-  },
-  {
-    date: '2023.6',
-    text: 'Founded aitebot lab — a studio of pure tech enthusiasts.',
-  },
-]
-
-export const publications = [
-  {
-    title:
-      'PIV-FlowDiffuser: Transfer-Learning-Based Denoising Diffusion Models for Particle Image Velocimetry',
-    authors: 'Zhu Qianyu, Li Yong, et al.',
-    venue: 'Sensors (MDPI), SCI Q2 · accepted Sep 2025',
-    desc:
-      'Transfer-learning-based denoising diffusion models for PIV. Sole first author. Preprint and code released Apr 2025.',
-    image: 'figures/piv-flowdiffuser.jpg',
-    links: [
-      { text: 'DOI', href: 'https://doi.org/10.3390/s25196077' },
-      { text: 'arXiv', href: 'https://arxiv.org/abs/2504.14952' },
-      { text: 'Code', href: 'https://github.com/Zhu-Qianyu/PIV-FlowDiffuser' },
+export const messages = {
+  en: {
+    ui: {
+      print: 'Print',
+      langEn: 'EN',
+      langZh: '中文',
+      emailLabel: 'Email',
+      githubLabel: 'GitHub',
+    },
+    name: 'Zhu Qianyu',
+    photoAlt: 'Zhu Qianyu',
+    affiliation: [
+      '2022.9–2026.6 · B.S. Intelligent Manufacturing Engineering, Wuhan University of Technology',
+      '2025.9–2026.3 · Research Assistant, School of Remote Sensing and Information Engineering, Wuhan University',
+      '2026.8–present · M.Sc. Intelligent Manufacturing Engineering, Nanyang Technological University',
     ],
-  },
-  {
-    title:
-      '基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 (Real-Time Bath Syncope Early-Warning Method and Device Based on Multi-Sensor Comfort Feedback)',
-    authors: '发明专利 · 第一发明人',
-    venue: 'Granted · Jun 2026',
-    desc: 'Multi-sensor comfort feedback for real-time bath syncope early warning.',
-    image: 'figures/bath-syncope.jpg',
-    links: [],
-  },
-  {
-    title:
-      '一种基于视觉点云测算的缺口隔断墙模型生成方法 (Gap Partition Wall Model Generation Method Based on Visual Point Cloud Measurement)',
-    authors: '发明专利 · 第二发明人',
-    venue: 'Published · Jan 2026',
-    desc: 'Generates gap partition wall models from visual point cloud measurement for 3D printing workflows.',
-    image: 'figures/gap-partition-wall.jpg',
-    links: [],
-  },
-  {
-    title:
-      '一种基于事件相机的流固耦合振动全场测量装置及方法 (Event-Camera Apparatus and Method for Full-Field Fluid–Structure Coupled Vibration Measurement)',
-    authors: '发明专利 · 第三发明人',
-    venue: 'Granted · Dec 2024',
-    desc: 'Full-field vibration measurement using event cameras for fluid–structure interaction.',
-    image: 'figures/event-camera-fsi.jpg',
-    links: [],
-  },
-]
-
-export const projectItems = [
-  {
-    title: 'UPAIego-management · upaieasy.cn',
-    period: '2025 – 2026',
-    desc:
-      'Ego-centric multi-view data collection ops platform (thesis project with MAX YIN). React + Supabase; six-camera hat firmware. Live at upaieasy.cn — used by teams in Suzhou, Nanning, and elsewhere.',
-    image: 'figures/upaieasy.jpg',
-    links: [
-      { text: 'GitHub', href: 'https://github.com/Zhu-Qianyu/UPAIego-management' },
-      { text: 'Site', href: 'https://upaieasy.cn' },
+    nav: [
+      { id: 'bio', label: 'Biography' },
+      { id: 'news', label: 'News' },
+      { id: 'publications', label: 'Publications' },
+      { id: 'projects', label: 'Projects' },
+      { id: 'experience', label: 'Experience' },
+      { id: 'honors', label: 'Honors' },
+      { id: 'misc', label: 'Misc' },
     ],
-  },
-  {
-    title: '筑墙智匠 · Artwall v1.0 — Concrete 3D Printing Robot',
-    period: '2023 – 2024',
-    desc:
-      '“Wall-Building Craftsman” mobile concrete 3D printing robot under Prof. Yin Haibin. SLAM-based segmented printing without gantries. RoboCup & CMCC national first prizes (2024) · team lead.',
-    image: 'figures/artwall-v1.jpg',
-    links: [
+    sections: {
+      bio: 'Biography',
+      news: 'News',
+      publications: 'Selected Publications',
+      projects: 'Selected Projects',
+      experience: 'Experience',
+      honors: 'Honors',
+      misc: 'Miscellaneous',
+      hobbies: 'Hobbies',
+    },
+    biography: [
+      'Hi there! Welcome to my homepage.',
+      'I am Zhu Qianyu. I graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology in June 2026. I spent my senior year as a research assistant in Prof. Wang Taoyang’s lab at WHU Remote Sensing, and will start an M.Sc. in Intelligent Manufacturing Engineering at Nanyang Technological University in August 2026.',
+      'I work on robotics end to end — hardware structure design, control algorithms, and vision-centric multimodal AI. I also pick up a web stack when a project needs a dashboard or ops platform.',
+      'In June 2023 I founded aitebot lab, a studio of pure tech enthusiasts at WUT. In September 2024 we registered the company entity Aitebot (Hongshan, Wuhan, Hubei) Intelligent Robotics Co., Ltd.',
+      'If you are interested in my work or would like to chat, feel free to send me an email.',
+    ],
+    newsItems: [
+      { date: '2026.6', text: 'Graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology.' },
+      { date: '2026.6', text: 'Invention patent granted: real-time bath syncope early-warning method and device based on multi-sensor comfort feedback · first inventor.' },
+      { date: '2026.1', text: 'Invention patent published: gap partition wall model generation method based on visual point cloud measurement · second inventor.' },
+      { date: '2026.5', text: 'aitebot partnered with 深研 Studio.' },
+      { date: '2026.5', text: 'upaieasy.cn launched; adopted by ego data-collection teams in Suzhou, Nanning, and elsewhere.' },
+      { date: '2026.4', text: 'aitebot company entity invited to join the NVIDIA Inception Program.' },
+      { date: '2026.3', text: 'Completed undergraduate thesis with MAX YIN (Saiyuan Technology).' },
+      { date: '2026.1', text: 'Accepted to NTU M.Sc. Intelligent Manufacturing Engineering; starting August 2026.' },
+      { date: '2025.11', text: 'Wuhan municipal college startup grant.' },
+      { date: '2025.11', text: 'ICAN national third prize · “筑墙智匠” concrete 3D printing robot · team captain.' },
+      { date: '2025.10', text: 'Business Elite Challenge national second prize · aitebot lab · team captain.' },
+      { date: '2025.9', text: 'PIV-FlowDiffuser accepted in Sensors (MDPI, SCI Q2) · sole first author.' },
+      { date: '2025.9', text: 'Joined Prof. Wang Taoyang’s lab, WHU School of Remote Sensing and Information Engineering.' },
+      { date: '2025.4', text: 'PIV-FlowDiffuser preprint on arXiv and code released on GitHub.' },
+      { date: '2024.12', text: 'Utility model patent granted: print arm for 3D printer · third inventor.' },
+      { date: '2024.12', text: 'Invention patent granted: event-camera fluid–structure coupled vibration full-field measurement · third inventor.' },
+      { date: '2024.11', text: 'CMCC national first prize: design of a high-rise partition-wall 3D printing robot · team lead.' },
+      { date: '2024.10', text: 'RoboCup national first prize: “筑墙智匠” 3D printing robot · team lead.' },
+      { date: '2024.9', text: 'Registered company entity Aitebot (Hongshan, Wuhan, Hubei) Intelligent Robotics Co., Ltd.' },
+      { date: '2023.6', text: 'Founded aitebot lab — a studio of pure tech enthusiasts.' },
+    ],
+    publications: [
       {
-        text: 'GitHub',
-        href: 'https://github.com/Zhu-Qianyu/Artwall-v1.0-A-Concrete-3D-Printing-Robot',
+        title: 'PIV-FlowDiffuser: Transfer-Learning-Based Denoising Diffusion Models for Particle Image Velocimetry',
+        authors: 'Zhu Qianyu, Li Yong, et al.',
+        venue: 'Sensors (MDPI), SCI Q2 · accepted Sep 2025',
+        desc: 'Transfer-learning-based denoising diffusion models for PIV. Sole first author. Preprint and code released Apr 2025.',
+        image: 'figures/piv-flowdiffuser.jpg',
+        links: pubLinks.piv,
+      },
+      {
+        title: '基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 (Real-Time Bath Syncope Early-Warning Method and Device Based on Multi-Sensor Comfort Feedback)',
+        authors: 'Invention patent · first inventor',
+        venue: 'Granted · Jun 2026',
+        desc: 'Multi-sensor comfort feedback for real-time bath syncope early warning.',
+        image: 'figures/bath-syncope.jpg',
+        links: [],
+      },
+      {
+        title: '一种基于视觉点云测算的缺口隔断墙模型生成方法 (Gap Partition Wall Model Generation Method Based on Visual Point Cloud Measurement)',
+        authors: 'Invention patent · second inventor',
+        venue: 'Published · Jan 2026',
+        desc: 'Generates gap partition wall models from visual point cloud measurement for 3D printing workflows.',
+        image: 'figures/gap-partition-wall.jpg',
+        links: [],
+      },
+      {
+        title: '一种基于事件相机的流固耦合振动全场测量装置及方法 (Event-Camera Apparatus and Method for Full-Field Fluid–Structure Coupled Vibration Measurement)',
+        authors: 'Invention patent · third inventor',
+        venue: 'Granted · Dec 2024',
+        desc: 'Full-field vibration measurement using event cameras for fluid–structure interaction.',
+        image: 'figures/event-camera-fsi.jpg',
+        links: [],
       },
     ],
+    projectItems: [
+      {
+        title: 'UPAIego-management · upaieasy.cn',
+        period: '2025 – 2026',
+        desc: 'Ego-centric multi-view data collection ops platform (thesis project with MAX YIN). React + Supabase; six-camera hat firmware. Live at upaieasy.cn — used by teams in Suzhou, Nanning, and elsewhere.',
+        image: 'figures/upaieasy.jpg',
+        links: projectLinks.upai,
+      },
+      {
+        title: '筑墙智匠 · Artwall v1.0 — Concrete 3D Printing Robot',
+        period: '2023 – 2024',
+        desc: '“Wall-Building Craftsman” mobile concrete 3D printing robot under Prof. Yin Haibin. SLAM-based segmented printing without gantries. RoboCup & CMCC national first prizes (2024) · team lead.',
+        image: 'figures/artwall-v1.jpg',
+        links: projectLinks.artwall,
+      },
+    ],
+    experienceItems: [
+      {
+        period: '2023.6 – present',
+        title: 'Founder',
+        org: 'aitebot lab · Aitebot Intelligent Robotics Co., Ltd. (Wuhan)',
+        desc: 'Built a tech-enthusiast robotics studio at WUT; registered company entity Sep 2024. NVIDIA Inception (Apr 2026); partnership with 深研 Studio (May 2026).',
+      },
+      {
+        period: '2025.9 – 2026.3',
+        title: 'Research Assistant',
+        org: 'Wuhan University · Prof. Wang Taoyang, School of Remote Sensing',
+        desc: 'Full-time RA during senior year. Defense pre-research, guidelines, and patent work.',
+      },
+      {
+        period: '2025 – 2026.3',
+        title: 'Undergraduate Thesis',
+        org: 'Advisor: MAX YIN, founder of Saiyuan Technology',
+        desc: 'Terminal–cloud collaborative egocentric multi-view data acquisition system. Deployed at upaieasy.cn (May 2026).',
+      },
+      {
+        period: 'Summer',
+        title: 'Visual Inspection Intern',
+        org: 'Suzhou Dexingyun',
+        desc: 'Industrial vision algorithms for automated inspection.',
+      },
+    ],
+    honors: [
+      { title: 'RoboCup China · National First Prize · “筑墙智匠” · team lead', year: '2024.10' },
+      { title: 'CMCC · National First Prize · high-rise partition-wall 3D printing robot · team lead', year: '2024.11' },
+      { title: 'Business Elite Challenge · National Second Prize · aitebot lab · captain', year: '2025.10' },
+      { title: 'ICAN · National Third Prize · “筑墙智匠” · captain', year: '2025.11' },
+      { title: 'Wuhan Municipal College Startup Grant', year: '2025.11' },
+      { title: 'NVIDIA Inception Program · invited company entity', year: '2026.4' },
+    ],
+    misc: {
+      hobbies: ['Travel', 'Swimming', 'Web dev (when a robot needs a UI)'],
+    },
   },
-]
-
-export const experienceItems = [
-  {
-    period: '2023.6 – present',
-    title: 'Founder',
-    org: 'aitebot lab · Aitebot Intelligent Robotics Co., Ltd. (Wuhan)',
-    desc:
-      'Built a tech-enthusiast robotics studio at WUT; registered company entity Sep 2024. NVIDIA Inception (Apr 2026); partnership with 深研 Studio (May 2026).',
+  zh: {
+    ui: {
+      print: '打印',
+      langEn: 'EN',
+      langZh: '中文',
+      emailLabel: '邮箱',
+      githubLabel: 'GitHub',
+    },
+    name: '朱钱宇',
+    photoAlt: '朱钱宇',
+    affiliation: [
+      '2022.9–2026.6 · 武汉理工大学 · 智能制造工程本科',
+      '2025.9–2026.3 · 武汉大学遥感信息工程学院 · 科研助理',
+      '2026.8–至今 · 南洋理工大学 · 智能制造工程硕士',
+    ],
+    nav: [
+      { id: 'bio', label: '简介' },
+      { id: 'news', label: '动态' },
+      { id: 'publications', label: '成果' },
+      { id: 'projects', label: '项目' },
+      { id: 'experience', label: '经历' },
+      { id: 'honors', label: '荣誉' },
+      { id: 'misc', label: '其他' },
+    ],
+    sections: {
+      bio: '简介',
+      news: '动态',
+      publications: '代表性成果',
+      projects: '代表性项目',
+      experience: '经历',
+      honors: '荣誉',
+      misc: '其他',
+      hobbies: '爱好',
+    },
+    biography: [
+      '你好，欢迎访问我的主页。',
+      '我是朱钱宇，2026 年 6 月毕业于武汉理工大学智能制造工程专业。大四在武汉大学遥感信息工程学院汪韬阳老师实验室担任科研助理，2026 年 8 月将赴南洋理工大学攻读智能制造工程硕士。',
+      '我从事机器人全链路工作——硬件结构设计、控制算法，以及以视觉为主的多模态人工智能；项目需要平台或运维界面时，也会写网页。',
+      '2023 年 6 月创立 aitebot lab，是武汉理工大学内由纯粹科技爱好者组成的机器人工作室；2024 年 9 月注册公司实体爱特沃（湖北省武汉市洪山区）智能机器人有限公司。',
+      '若对我的工作感兴趣，或想随便聊聊，欢迎发邮件联系。',
+    ],
+    newsItems: [
+      { date: '2026.6', text: '武汉理工大学智能制造工程本科毕业。' },
+      { date: '2026.6', text: '发明专利授权：基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 · 第一发明人。' },
+      { date: '2026.1', text: '发明专利公开：一种基于视觉点云测算的缺口隔断墙模型生成方法 · 第二发明人。' },
+      { date: '2026.5', text: 'aitebot 与深研 Studio 达成合作。' },
+      { date: '2026.5', text: 'upaieasy.cn 上线，苏州、南宁等多个 ego 数采团队使用。' },
+      { date: '2026.4', text: 'aitebot 公司主体受邀加入英伟达初创加速计划（NVIDIA Inception）。' },
+      { date: '2026.3', text: '跟随 MAX YIN（賽源科技）完成本科毕业设计。' },
+      { date: '2026.1', text: '南洋理工大学智能制造工程硕士录取，8 月入学。' },
+      { date: '2025.11', text: '获得武汉市大学生创业扶持资金。' },
+      { date: '2025.11', text: 'ICAN 全国三等奖：「筑墙智匠」混凝土 3D 打印机器人 · 队长。' },
+      { date: '2025.10', text: '商业精英挑战赛全国二等奖：爱特沃智能机器人实验室 · 队长。' },
+      { date: '2025.9', text: 'PIV-FlowDiffuser 被 Sensors（SCI Q2）接收 · 独立一作。' },
+      { date: '2025.9', text: '加入武汉大学遥感学院汪韬阳老师实验室。' },
+      { date: '2025.4', text: 'PIV-FlowDiffuser arXiv 预印本与 GitHub 代码公开。' },
+      { date: '2024.12', text: '实用新型专利授权：一种用于 3D 打印机的打印臂 · 第三发明人。' },
+      { date: '2024.12', text: '发明专利授权：一种基于事件相机的流固耦合振动全场测量装置及方法 · 第三发明人。' },
+      { date: '2024.11', text: '机工赛全国一等奖：高层建筑隔断墙 3D 打印机器人的设计 · 队伍第一人。' },
+      { date: '2024.10', text: 'RoboCup 全国一等奖：「筑墙智匠」3D 打印机器人 · 队伍第一人。' },
+      { date: '2024.9', text: '公司实体爱特沃（湖北省武汉市洪山区）智能机器人有限公司成立。' },
+      { date: '2023.6', text: '创立 aitebot lab —— 由纯粹科技爱好者组成的实验室。' },
+    ],
+    publications: [
+      {
+        title: 'PIV-FlowDiffuser: Transfer-Learning-Based Denoising Diffusion Models for Particle Image Velocimetry',
+        authors: '朱钱宇，李勇 等',
+        venue: 'Sensors (MDPI)，SCI Q2 · 2025.9 接收',
+        desc: '基于迁移学习的粒子图像测速去噪扩散模型。独立一作。2025.4 预印本与代码公开。',
+        image: 'figures/piv-flowdiffuser.jpg',
+        links: [
+          { text: 'DOI', href: 'https://doi.org/10.3390/s25196077' },
+          { text: 'arXiv', href: 'https://arxiv.org/abs/2504.14952' },
+          { text: '代码', href: 'https://github.com/Zhu-Qianyu/PIV-FlowDiffuser' },
+        ],
+      },
+      {
+        title: '基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 (Real-Time Bath Syncope Early-Warning Method and Device Based on Multi-Sensor Comfort Feedback)',
+        authors: '发明专利 · 第一发明人',
+        venue: '授权 · 2026.6',
+        desc: '利用多传感器舒适度实时反馈，实现泡澡晕厥早期预警。',
+        image: 'figures/bath-syncope.jpg',
+        links: [],
+      },
+      {
+        title: '一种基于视觉点云测算的缺口隔断墙模型生成方法 (Gap Partition Wall Model Generation Method Based on Visual Point Cloud Measurement)',
+        authors: '发明专利 · 第二发明人',
+        venue: '公开 · 2026.1',
+        desc: '基于视觉点云测算，生成缺口隔断墙模型，用于 3D 打印流程。',
+        image: 'figures/gap-partition-wall.jpg',
+        links: [],
+      },
+      {
+        title: '一种基于事件相机的流固耦合振动全场测量装置及方法 (Event-Camera Apparatus and Method for Full-Field Fluid–Structure Coupled Vibration Measurement)',
+        authors: '发明专利 · 第三发明人',
+        venue: '授权 · 2024.12',
+        desc: '基于事件相机的流固耦合振动全场测量。',
+        image: 'figures/event-camera-fsi.jpg',
+        links: [],
+      },
+    ],
+    projectItems: [
+      {
+        title: 'UPAIego-management · upaieasy.cn',
+        period: '2025 – 2026',
+        desc: '第一人称多视角视频数采运维平台（毕业设计，导师 MAX YIN）。React + Supabase；六路相机帽固件。已上线 upaieasy.cn，苏州、南宁等多地使用。',
+        image: 'figures/upaieasy.jpg',
+        links: [
+          { text: 'GitHub', href: 'https://github.com/Zhu-Qianyu/UPAIego-management' },
+          { text: '网站', href: 'https://upaieasy.cn' },
+        ],
+      },
+      {
+        title: '筑墙智匠 · Artwall v1.0 — 混凝土 3D 打印机器人',
+        period: '2023 – 2024',
+        desc: '殷海斌老师指导下研发的移动式混凝土 3D 打印机器人，SLAM 分段打印，无龙门架。RoboCup 与机工赛全国一等奖（2024）· 队伍第一人。',
+        image: 'figures/artwall-v1.jpg',
+        links: projectLinks.artwall,
+      },
+    ],
+    experienceItems: [
+      {
+        period: '2023.6 – 至今',
+        title: '创始人',
+        org: 'aitebot lab · 爱特沃智能机器人有限公司（武汉）',
+        desc: '在武汉理工大学创立机器人极客工作室；2024.9 注册公司。2026.4 加入 NVIDIA Inception；2026.5 与深研 Studio 合作。',
+      },
+      {
+        period: '2025.9 – 2026.3',
+        title: '科研助理',
+        org: '武汉大学 · 汪韬阳老师，遥感信息工程学院',
+        desc: '大四全职 RA。国防预研结题、指南撰写与专利工作。',
+      },
+      {
+        period: '2025 – 2026.3',
+        title: '本科毕业设计',
+        org: '导师：MAX YIN，賽源科技创始人',
+        desc: '终端–云端协同 egocentric 多视角数据采集系统。2026.5 部署于 upaieasy.cn。',
+      },
+      {
+        period: '暑期',
+        title: '视觉检测实习生',
+        org: '苏州德星云',
+        desc: '工业视觉检测算法。',
+      },
+    ],
+    honors: [
+      { title: 'RoboCup 全国一等奖 ·「筑墙智匠」· 队伍第一人', year: '2024.10' },
+      { title: '机工赛全国一等奖 · 高层建筑隔断墙 3D 打印机器人 · 队伍第一人', year: '2024.11' },
+      { title: '商业精英挑战赛全国二等奖 · aitebot lab · 队长', year: '2025.10' },
+      { title: 'ICAN 全国三等奖 ·「筑墙智匠」· 队长', year: '2025.11' },
+      { title: '武汉市大学生创业扶持资金', year: '2025.11' },
+      { title: 'NVIDIA Inception 初创加速 · 公司主体受邀', year: '2026.4' },
+    ],
+    misc: {
+      hobbies: ['旅行', '游泳', '网页（机器人需要界面时）'],
+    },
   },
-  {
-    period: '2025.9 – 2026.3',
-    title: 'Research Assistant',
-    org: 'Wuhan University · Prof. Wang Taoyang, School of Remote Sensing',
-    desc: 'Full-time RA during senior year. Defense pre-research, guidelines, and patent work.',
-  },
-  {
-    period: '2025 – 2026.3',
-    title: 'Undergraduate Thesis',
-    org: 'Advisor: MAX YIN, founder of Saiyuan Technology',
-    desc:
-      'Terminal–cloud collaborative egocentric multi-view data acquisition system. Deployed at upaieasy.cn (May 2026).',
-  },
-  {
-    period: 'Summer',
-    title: 'Visual Inspection Intern',
-    org: 'Suzhou Dexingyun',
-    desc: 'Industrial vision algorithms for automated inspection.',
-  },
-]
-
-export const honors = [
-  { title: 'RoboCup China · National First Prize · “筑墙智匠” · team lead', year: '2024.10' },
-  {
-    title: 'CMCC · National First Prize · high-rise partition-wall 3D printing robot · team lead',
-    year: '2024.11',
-  },
-  { title: 'Business Elite Challenge · National Second Prize · aitebot lab · captain', year: '2025.10' },
-  { title: 'ICAN · National Third Prize · “筑墙智匠” · captain', year: '2025.11' },
-  { title: 'Wuhan Municipal College Startup Grant', year: '2025.11' },
-  { title: 'NVIDIA Inception Program · invited company entity', year: '2026.4' },
-]
-
-export const misc = {
-  hobbies: ['Travel', 'Swimming', 'Web dev (when a robot needs a UI)'],
 }
