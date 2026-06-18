@@ -215,6 +215,10 @@ watch(locale, (lang) => {
               <th>{{ t.sections.hobbies }}</th>
               <td>{{ t.misc.hobbies.join(' · ') }}</td>
             </tr>
+            <tr>
+              <th>{{ t.sections.specialties }}</th>
+              <td>{{ t.misc.specialties.join(' · ') }}</td>
+            </tr>
           </tbody>
         </table>
       </section>

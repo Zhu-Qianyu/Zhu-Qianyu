@@ -61,6 +61,7 @@ export const messages = {
       honors: 'Honors',
       misc: 'Miscellaneous',
       hobbies: 'Hobbies',
+      specialties: 'Specialties',
     },
     biography: [
       'Hi there! Welcome to my homepage.',
@@ -176,7 +177,8 @@ export const messages = {
       { title: 'NVIDIA Inception Program · invited company entity', year: '2026.4' },
     ],
     misc: {
-      hobbies: ['Travel', 'Swimming', 'Web dev (when a robot needs a UI)'],
+      hobbies: ['Travel', 'Football', 'Swimming', 'Video games'],
+      specialties: ['Chinese painting', 'Calligraphy'],
     },
   },
   zh: {
@@ -212,6 +214,7 @@ export const messages = {
       honors: '荣誉',
       misc: '其他',
       hobbies: '爱好',
+      specialties: '特长',
     },
     biography: [
       '你好，欢迎访问我的主页。',
@@ -334,7 +337,8 @@ export const messages = {
       { title: 'NVIDIA Inception 初创加速 · 公司主体受邀', year: '2026.4' },
     ],
     misc: {
-      hobbies: ['旅行', '游泳', '网页（机器人需要界面时）'],
+      hobbies: ['旅游', '足球', '游泳', '电子游戏'],
+      specialties: ['国画', '书法'],
     },
   },
 }
