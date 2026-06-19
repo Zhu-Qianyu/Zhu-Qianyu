@@ -3,10 +3,92 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { profileBase, messages } from './data/profile.js'
 
 const locale = ref('en')
+const showPrintHint = ref(false)
 const year = new Date().getFullYear()
 const profilePhoto = `${import.meta.env.BASE_URL}${profileBase.photo}`
 
 const t = computed(() => messages[locale.value] ?? messages.en)
+const printHintMessage = computed(() =>
+  isInAppBrowser() ? t.value.ui.printHintInApp : t.value.ui.printHintBody,
+)
+
+function isInAppBrowser() {
+  return /MicroMessenger|QQ\/|Weibo|DingTalk|AlipayClient|BytedanceWebview/i.test(navigator.userAgent)
+}
+
+function isMobileDevice() {
+  return (
+    window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    || window.matchMedia('(max-width: 768px)').matches
+  )
+}
+
+function collectStyles() {
+  return Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
+    .map((node) => node.outerHTML)
+    .join('\n')
+}
+
+function printViaIframe() {
+  const iframe = document.createElement('iframe')
+  iframe.setAttribute('aria-hidden', 'true')
+  Object.assign(iframe.style, {
+    position: 'fixed',
+    width: '0',
+    height: '0',
+    border: '0',
+    overflow: 'hidden',
+  })
+  document.body.appendChild(iframe)
+
+  const win = iframe.contentWindow
+  if (!win) {
+    iframe.remove()
+    showPrintHint.value = true
+    return
+  }
+
+  const doc = win.document
+  const pageHtml = document.querySelector('.page')?.outerHTML ?? ''
+
+  doc.open()
+  doc.write(`<!DOCTYPE html>
+<html lang="${document.documentElement.lang}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+${collectStyles()}
+</head>
+<body>${pageHtml}</body>
+</html>`)
+  doc.close()
+
+  const finish = () => {
+    win.focus()
+    win.print()
+    setTimeout(() => iframe.remove(), 1500)
+  }
+
+  const imgs = Array.from(doc.images)
+  if (imgs.length === 0) {
+    finish()
+    return
+  }
+
+  let done = 0
+  const tick = () => {
+    done += 1
+    if (done >= imgs.length) finish()
+  }
+
+  for (const img of imgs) {
+    if (img.complete) tick()
+    else {
+      img.onload = tick
+      img.onerror = tick
+    }
+  }
+}
 
 function assetUrl(path) {
   return `${import.meta.env.BASE_URL}${path}`
@@ -25,7 +107,25 @@ function setLocale(lang) {
   }
 }
 
+function closePrintHint() {
+  showPrintHint.value = false
+}
+
 function printPage() {
+  if (isInAppBrowser()) {
+    showPrintHint.value = true
+    return
+  }
+
+  if (isMobileDevice()) {
+    try {
+      printViaIframe()
+    } catch {
+      showPrintHint.value = true
+    }
+    return
+  }
+
   window.print()
 }
 
@@ -63,6 +163,23 @@ watch(locale, (lang) => {
         >{{ t.ui.langZh }}</button>
       </div>
       <button type="button" class="print-btn" @click="printPage">{{ t.ui.print }}</button>
+    </div>
+
+    <div
+      v-if="showPrintHint"
+      class="print-hint-overlay no-print"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="t.ui.printHintTitle"
+      @click.self="closePrintHint"
+    >
+      <div class="print-hint-card">
+        <h2 class="print-hint-title">{{ t.ui.printHintTitle }}</h2>
+        <p class="print-hint-body">{{ printHintMessage }}</p>
+        <button type="button" class="print-hint-close" @click="closePrintHint">
+          {{ t.ui.printHintClose }}
+        </button>
+      </div>
     </div>
 
     <header id="top" class="banner">
@@ -281,10 +398,57 @@ watch(locale, (lang) => {
   cursor: pointer;
   padding: 0.25rem 0.65rem;
   border-radius: 3px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .print-btn:hover {
   border-color: var(--c-text);
+}
+
+.print-hint-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.print-hint-card {
+  width: min(100%, 22rem);
+  padding: 1.25rem 1.35rem;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12);
+}
+
+.print-hint-title {
+  font-size: 1.05rem;
+  margin-bottom: 0.65rem;
+}
+
+.print-hint-body {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--c-muted);
+  margin-bottom: 1rem;
+}
+
+.print-hint-close {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  background: var(--c-bg);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--c-text);
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .print-only {
@@ -549,6 +713,20 @@ watch(locale, (lang) => {
 }
 
 @media (max-width: 560px) {
+  .toolbar {
+    gap: 0.75rem;
+  }
+
+  .lang-btn,
+  .print-btn {
+    min-height: 2.75rem;
+    font-size: 1rem;
+  }
+
+  .print-btn {
+    padding: 0.4rem 0.85rem;
+  }
+
   .banner {
     flex-direction: column;
     gap: 1rem;

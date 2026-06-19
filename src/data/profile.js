@@ -35,6 +35,12 @@ export const messages = {
       langZh: '中文',
       emailLabel: 'Email',
       githubLabel: 'GitHub',
+      printHintTitle: 'Print on mobile',
+      printHintBody:
+        'Open this page in Safari or Chrome, then use the browser menu: Share → Print, or Save as PDF.',
+      printHintInApp:
+        'Printing is not supported in this in-app browser. Open the page in your system browser, then use Print or Save as PDF.',
+      printHintClose: 'OK',
     },
     name: 'Zhu Qianyu',
     photoAlt: 'Zhu Qianyu',
@@ -187,6 +193,12 @@ export const messages = {
       langZh: '中文',
       emailLabel: '邮箱',
       githubLabel: 'GitHub',
+      printHintTitle: '手机打印',
+      printHintBody:
+        '请在 Safari 或 Chrome 中打开本页，使用浏览器菜单：分享 → 打印，或选择「存储到文件」导出 PDF。',
+      printHintInApp:
+        '当前内置浏览器不支持打印。请点击右上角菜单，选择「在浏览器中打开」，再使用打印或存储为 PDF。',
+      printHintClose: '知道了',
     },
     name: '朱钱宇',
     photoAlt: '朱钱宇',
