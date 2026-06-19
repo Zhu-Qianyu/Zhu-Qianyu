@@ -187,8 +187,8 @@ watch(locale, (lang) => {
         <img
           :src="profilePhoto"
           :alt="t.photoAlt"
-          width="180"
-          height="225"
+          width="200"
+          height="250"
           loading="eager"
         />
       </figure>
@@ -466,11 +466,11 @@ watch(locale, (lang) => {
 
 .banner-photo {
   margin: 0;
-  flex: 0 0 160px;
+  flex: 0 0 200px;
 }
 
 .banner-photo img {
-  width: 160px;
+  width: 200px;
   height: auto;
   border: 1px solid var(--c-border);
 }
@@ -733,7 +733,7 @@ watch(locale, (lang) => {
   }
 
   .banner-photo img {
-    width: 130px;
+    width: 170px;
   }
 
   .media-row {
