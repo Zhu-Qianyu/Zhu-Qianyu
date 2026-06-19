@@ -466,6 +466,7 @@ watch(locale, (lang) => {
 
 .banner-photo {
   margin: 0;
+  margin-top: 6px;
   flex: 0 0 200px;
 }
 
