@@ -73,11 +73,10 @@ export const messages = {
     newsItems: [
       { date: '2026.6', text: 'Graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology.' },
       { date: '2026.6', text: 'Invention patent granted: real-time bath syncope early-warning method and device based on multi-sensor comfort feedback · first inventor.' },
-      { date: '2026.1', text: 'Invention patent published: gap partition wall model generation method based on visual point cloud measurement · second inventor.' },
       { date: '2026.5', text: 'aitebot partnered with 深研 Studio.' },
       { date: '2026.5', text: 'upaieasy.cn launched; adopted by ego data-collection teams in Suzhou, Nanning, and elsewhere.' },
       { date: '2026.4', text: 'aitebot company entity invited to join the NVIDIA Inception Program.' },
-      { date: '2026.3', text: 'Completed undergraduate thesis with MAX YIN (Saiyuan Technology).' },
+      { date: '2026.3', text: 'Completed undergraduate thesis with MAX YIN (CyberOrigin).' },
       { date: '2026.1', text: 'Accepted to NTU M.Sc. Intelligent Manufacturing Engineering; starting August 2026.' },
       { date: '2025.11', text: 'Wuhan municipal college startup grant.' },
       { date: '2025.11', text: 'ICAN national third prize · “筑墙智匠” concrete 3D printing robot · team captain.' },
@@ -158,7 +157,7 @@ export const messages = {
       {
         period: '2025 – 2026.3',
         title: 'Undergraduate Thesis',
-        org: 'Advisor: MAX YIN, founder of Saiyuan Technology',
+        org: 'Advisor: MAX YIN, founder of Cyberorgin',
         desc: 'Terminal–cloud collaborative egocentric multi-view data acquisition system. Deployed at upaieasy.cn (May 2026).',
       },
       {
@@ -226,7 +225,6 @@ export const messages = {
     newsItems: [
       { date: '2026.6', text: '武汉理工大学智能制造工程本科毕业。' },
       { date: '2026.6', text: '发明专利授权：基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 · 第一发明人。' },
-      { date: '2026.1', text: '发明专利公开：一种基于视觉点云测算的缺口隔断墙模型生成方法 · 第二发明人。' },
       { date: '2026.5', text: 'aitebot 与深研 Studio 达成合作。' },
       { date: '2026.5', text: 'upaieasy.cn 上线，苏州、南宁等多个 ego 数采团队使用。' },
       { date: '2026.4', text: 'aitebot 公司主体受邀加入英伟达初创加速计划（NVIDIA Inception）。' },
