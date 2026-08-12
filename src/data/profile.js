@@ -77,6 +77,7 @@ export const messages = {
       'If you are interested in my work or would like to chat, feel free to send me an email.',
     ],
     newsItems: [
+      { date: '2026.8', text: 'Joined MARSLab at NTU.' },
       { date: '2026.6', text: 'Graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology.' },
       { date: '2026.6', text: 'Invention patent granted: real-time bath syncope early-warning method and device based on multi-sensor comfort feedback · first inventor.' },
       { date: '2026.5', text: 'aitebot partnered with 深研 Studio.' },
@@ -235,6 +236,7 @@ export const messages = {
       '若对我的工作感兴趣，或想随便聊聊，欢迎发邮件联系。',
     ],
     newsItems: [
+      { date: '2026.8', text: '加入南洋理工大学 MARSLab 实验室。' },
       { date: '2026.6', text: '武汉理工大学智能制造工程本科毕业。' },
       { date: '2026.6', text: '发明专利授权：基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 · 第一发明人。' },
       { date: '2026.5', text: 'aitebot 与深研 Studio 达成合作。' },
