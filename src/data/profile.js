@@ -143,7 +143,7 @@ export const messages = {
       {
         title: '筑墙智匠 · Artwall v1.0 — Concrete 3D Printing Robot',
         period: '2023 – 2024',
-        desc: '“Wall-Building Craftsman” mobile concrete 3D printing robot under Prof. Yin Haibin. SLAM-based segmented printing without gantries. RoboCup & CMCC national first prizes (2024) · team lead.',
+        desc: '“Wall-Building Craftsman” mobile concrete 3D printing robot designed from scratch under Prof. Yin Haibin — mechanical structure design, electrical system, and host-computer control. SLAM-based segmented printing without gantries. RoboCup & CMCC national first prizes (2024) · team lead.',
         image: 'figures/artwall-v1.jpg',
         links: projectLinks.artwall,
       },
@@ -309,7 +309,7 @@ export const messages = {
       {
         title: '筑墙智匠 · Artwall v1.0 — 混凝土 3D 打印机器人',
         period: '2023 – 2024',
-        desc: '殷海斌老师指导下研发的移动式混凝土 3D 打印机器人，SLAM 分段打印，无龙门架。RoboCup 与机工赛全国一等奖（2024）· 队伍第一人。',
+        desc: '在尹海斌老师指导下从头设计的移动式混凝土 3D 打印机器人，涵盖机械结构设计、电气系统、上位机控制；SLAM 分段打印，无龙门架。RoboCup 与机工赛全国一等奖（2024）· 队伍第一人。',
         image: 'figures/artwall-v1.jpg',
         links: projectLinks.artwall,
       },
