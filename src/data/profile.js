@@ -78,6 +78,7 @@ export const messages = {
     ],
     newsItems: [
       { date: '2026.8', text: 'Joined MARSLab at NTU.' },
+      { date: '2026.7', text: 'HUBEI Province municipal college startup grant.' },
       { date: '2026.6', text: 'Graduated with a B.S. in Intelligent Manufacturing Engineering from Wuhan University of Technology.' },
       { date: '2026.6', text: 'Invention patent granted: real-time bath syncope early-warning method and device based on multi-sensor comfort feedback · first inventor.' },
       { date: '2026.5', text: 'aitebot partnered with 深研 Studio.' },
@@ -85,7 +86,7 @@ export const messages = {
       { date: '2026.4', text: 'aitebot company entity invited to join the NVIDIA Inception Program.' },
       { date: '2026.3', text: 'Completed undergraduate thesis with MAX YIN (CyberOrigin).' },
       { date: '2026.1', text: 'Accepted to NTU M.Sc. Intelligent Manufacturing Engineering; starting August 2026.' },
-      { date: '2025.11', text: 'Wuhan municipal college startup grant.' },
+      { date: '2025.11', text: 'WUHAN City municipal college startup grant.' },
       { date: '2025.11', text: 'ICAN national third prize · “筑墙智匠” concrete 3D printing robot · team captain.' },
       { date: '2025.10', text: 'Business Elite Challenge national second prize · aitebot lab · team captain.' },
       { date: '2025.9', text: 'PIV-FlowDiffuser accepted in Sensors (MDPI, SCI Q2) · sole first author.' },
@@ -181,6 +182,7 @@ export const messages = {
       { title: 'ICAN · National Third Prize · “筑墙智匠” · captain', year: '2025.11' },
       { title: 'Wuhan Municipal College Startup Grant', year: '2025.11' },
       { title: 'NVIDIA Inception Program · invited company entity', year: '2026.4' },
+      { title: 'Hubei Municipal College Startup Grant', year: '2026.7' },
     ],
     misc: {
       hobbies: ['Travel', 'Football', 'Swimming', 'Video games'],
@@ -237,6 +239,7 @@ export const messages = {
     ],
     newsItems: [
       { date: '2026.8', text: '加入南洋理工大学 MARSLab 实验室。' },
+      { date: '2026.7', text: '获得湖北省大学生创业扶持资金。' },
       { date: '2026.6', text: '武汉理工大学智能制造工程本科毕业。' },
       { date: '2026.6', text: '发明专利授权：基于多传感器舒适度实时反馈的泡澡晕厥预警方法及装置 · 第一发明人。' },
       { date: '2026.5', text: 'aitebot 与深研 Studio 达成合作。' },
@@ -347,6 +350,7 @@ export const messages = {
       { title: 'ICAN 全国三等奖 ·「筑墙智匠」· 队长', year: '2025.11' },
       { title: '武汉市大学生创业扶持资金', year: '2025.11' },
       { title: 'NVIDIA Inception 初创加速 · 公司主体受邀', year: '2026.4' },
+      { title: '湖北省大学生创业扶持资金', year: '2026.7' },
     ],
     misc: {
       hobbies: ['旅游', '足球', '游泳', '电子游戏'],
